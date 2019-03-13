@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Task from '../task/Task'
+import Pagination from '../paganation/Paganation'
 import { loadTasksForPage } from '../../actions'
 
 class TasksList extends Component {
@@ -10,7 +11,7 @@ class TasksList extends Component {
   }
 
   render() {
-    const { tasks, total, loading } = this.props
+    const { tasks, total, page, loading } = this.props
     if (!total) return <div>Loading...</div>
     if (loading || !tasks) return <div>Loading...</div>
     return (
@@ -22,7 +23,7 @@ class TasksList extends Component {
             </li>
           ))}
         </ul>
-        {this.pagination}
+        <Pagination totalRecords={total} page={page} limit={3} pageNeighbours={1} />
       </div>
     )
   }

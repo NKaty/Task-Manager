@@ -15,9 +15,10 @@ class TasksPage extends Component {
     if (!match) return <Redirect to="/1" />
 
     const { page } = match.params
-    if (isNaN(page)) return <Redirect to="/1" />
+    const currentPage = parseInt(page, 10)
+    if (isNaN(currentPage)) return <Redirect to="/1" />
 
-    return <TasksList key={page} page={page} />
+    return <TasksList key={page} page={currentPage} />
   }
 }
 
