@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-function Task({ task }) {
+const Task = ({ task }) => {
   return (
     <div>
       <p>
-        {task.text} <b>by {task.username}</b>
+        Задание: {task.text} Автор: {task.username}
       </p>
       <p>
-        {task.email} {task.status}
+        Email: {task.email} Статус: {!!task.status ? 'Выполнено' : 'Не выполнено'}
       </p>
     </div>
   )
