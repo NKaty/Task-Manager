@@ -27,7 +27,7 @@ export default (state = ReducerRecord(), action) => {
       if (
         state.get('sortBy') !== payload.sortBy ||
         state.get('sortOrder') !== payload.sortOrder ||
-        state.get('newTasks').size
+        state.getIn(['newTasks', 'ids']).size
       ) {
         return state
           .set('entities', OrderedMap({}))

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import TasksList from '../tasksList/TasksList'
+import Tasks from '../tasks/Tasks'
 
 class TasksPage extends Component {
   render() {
@@ -18,7 +18,7 @@ class TasksPage extends Component {
     const currentPage = parseInt(page, 10)
     if (isNaN(currentPage)) return <Redirect to="/1" />
 
-    return <TasksList key={page} page={currentPage} />
+    return <Tasks key={page} page={currentPage} />
   }
 }
 

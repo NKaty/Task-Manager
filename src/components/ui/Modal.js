@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import Backdrop from './Backdrop'
 import styled from 'styled-components'
 
@@ -23,19 +23,14 @@ const StyledModal = styled.div`
   }
 `
 
-class Modal extends Component {
-  // not PureComponent, because we know other prop (modalCancel) does not change
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return this.props.show !== nextProps.show || this.props.children !== nextProps.children
-  // }
-
+class Modal extends PureComponent {
   render() {
     console.log('render')
-    const { children, show, modalCancel } = this.props
+    const { show, modalCancel, render } = this.props
     return (
       <Fragment>
         {show && <Backdrop removeBackdrop={modalCancel} />}
-        <StyledModal show={show}>{children}</StyledModal>
+        <StyledModal show={show}>{render()}</StyledModal>
       </Fragment>
     )
   }

@@ -1,16 +1,17 @@
 import { LOAD_TASKS_FOR_PAGE, ADD_TASK, SUCCESS, FAIL, START } from '../constants'
-// let id = 1
+let id = 1
 
 export function loadTasksForPage(page, sortBy, sortOrder) {
   return (dispatch, getState) => {
     const {
-      tasks: { pagination, sortBy: sortByFromStore, sortOrder: sortOrderFromStore }
+      tasks: { pagination, sortBy: sortByFromStore, sortOrder: sortOrderFromStore, newTasks }
     } = getState()
     if (
       pagination.getIn([page, 'loading']) ||
       (pagination.getIn([page, 'ids']) &&
         sortBy === sortByFromStore &&
-        sortOrder === sortOrderFromStore)
+        sortOrder === sortOrderFromStore &&
+        !newTasks.get('ids').size)
     )
       return
 
@@ -81,26 +82,26 @@ export function addTask(form) {
 
     setTimeout(
       () =>
+        // dispatch({
+        //   type: ADD_TASK + FAIL,
+        //   error: {
+        //     username: 'Поле является обязательным для заполнения',
+        //     email: 'Неверный email',
+        //     text: 'Поле является обязательным для заполнения'
+        //   }
+        // }),
         dispatch({
-          type: ADD_TASK + FAIL,
-          error: {
-            username: 'Поле является обязательным для заполнения',
-            email: 'Неверный email',
-            text: 'Поле является обязательным для заполнения'
+          type: ADD_TASK + SUCCESS,
+          response: {
+            message: {
+              id: id++,
+              username: form.username,
+              email: form.email,
+              text: form.text,
+              status: 0
+            }
           }
         }),
-      // dispatch({
-      //   type: ADD_TASK + SUCCESS,
-      //   response: {
-      //     message: {
-      //       id: id++,
-      //       username: form.username,
-      //       email: form.email,
-      //       text: form.text,
-      //       status: 0
-      //     }
-      //   }
-      // }),
       3000
     )
   }
