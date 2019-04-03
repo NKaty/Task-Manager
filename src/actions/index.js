@@ -1,4 +1,5 @@
 import { LOAD_TASKS_FOR_PAGE, ADD_TASK, SUCCESS, FAIL, START } from '../constants'
+// let id = 1
 
 export function loadTasksForPage(page, sortBy, sortOrder) {
   return (dispatch, getState) => {
@@ -53,23 +54,54 @@ export function addTask(form) {
       type: ADD_TASK + START
     })
 
-    fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Test', {
-      method: 'POST',
-      mode: 'cors',
-      body
-    })
-      .then(res => res.json())
-      .then(response =>
-        dispatch({
-          type: ADD_TASK + SUCCESS,
-          response
-        })
-      )
-      .catch(error =>
+    // fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Test', {
+    //   method: 'POST',
+    //   mode: 'cors',
+    //   body
+    // })
+    //   .then(res => {
+    //     console.log(res)
+    //     // console.log(res.json())
+    //     return res.json()
+    //   })
+    //   .then(response => {
+    //     console.log('success')
+    //     dispatch({
+    //       type: ADD_TASK + SUCCESS,
+    //       response
+    //     })
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //     dispatch({
+    //       type: ADD_TASK + FAIL,
+    //       error
+    //     })
+    //   })
+
+    setTimeout(
+      () =>
         dispatch({
           type: ADD_TASK + FAIL,
-          error
-        })
-      )
+          error: {
+            username: 'Поле является обязательным для заполнения',
+            email: 'Неверный email',
+            text: 'Поле является обязательным для заполнения'
+          }
+        }),
+      // dispatch({
+      //   type: ADD_TASK + SUCCESS,
+      //   response: {
+      //     message: {
+      //       id: id++,
+      //       username: form.username,
+      //       email: form.email,
+      //       text: form.text,
+      //       status: 0
+      //     }
+      //   }
+      // }),
+      3000
+    )
   }
 }

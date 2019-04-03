@@ -70,19 +70,18 @@ class CreateTaskForm extends Component {
 
   taskCreateHandler = event => {
     event.preventDefault()
-
     const taskFormData = Object.keys(this.state.taskForm).reduce((acc, key) => {
       acc[key] = this.state.taskForm[key].value
       return acc
     }, {})
     console.log(taskFormData)
     this.props.addTask(taskFormData)
+    this.props.closeFormHandler()
   }
 
   taskCancelHandler = event => {
     event.preventDefault()
-
-    this.props.taskCancelHandler()
+    this.props.closeFormHandler()
   }
 
   render() {

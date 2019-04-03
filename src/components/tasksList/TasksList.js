@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Task from '../task/Task'
 import Pagination from '../paganation/Paganation'
@@ -51,6 +51,15 @@ class TasksList extends Component {
     this.setState({ sortBy: 'none', sortOrder: 'none' }, () => this.fetchData()) //componentDidUpdate
   }
 
+  onClickCreateTaskHandler = event => {
+    event.preventDefault()
+    this.setState({ isCreateTaskFormShown: true })
+  }
+
+  onCloseTaskFormHandler = () => {
+    this.setState({ isCreateTaskFormShown: false })
+  }
+
   get sortTasksMenu() {
     const { sortBy, sortOrder } = this.state
     return (
@@ -83,25 +92,46 @@ class TasksList extends Component {
     )
   }
 
-  onClickCreateTaskHandler = event => {
-    event.preventDefault()
-    this.setState({ isCreateTaskFormShown: true })
-  }
-
-  createTaskCancelHandler = () => {
-    this.setState({ isCreateTaskFormShown: false })
+  get newTasksList() {
+    const { newTasks, newTasksLoading, newTasksError } = this.props
+    console.log(newTasks)
+    return (
+      <Fragment>
+        {newTasksLoading && <div>Loading...</div>}
+        {newTasksError && (
+          <div>
+            <p>Новое задание не удалось создать. Причины:</p>
+            <ul>
+              {Object.keys(newTasksError).map(error => (
+                <li>
+                  {error}: {newTasksError[error]}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <ul>
+          {newTasks.map(id => (
+            <li key={id}>
+              <Task id={id} />
+            </li>
+          ))}
+        </ul>
+      </Fragment>
+    )
   }
 
   render() {
-    const { tasks, total, page, loading } = this.props
+    const { tasks, total, page, tasksLoading } = this.props
     if (!total) return <div>Loading...</div>
-    if (loading || !tasks) return <div>Loading...</div>
+    if (tasksLoading || !tasks) return <div>Loading...</div>
     return (
       <div>
-        <Modal modalCancel={this.createTaskCancelHandler} show={this.state.isCreateTaskFormShown}>
-          <CreateTaskForm taskCancelHandler={this.createTaskCancelHandler} />
+        <Modal modalCancel={this.onCloseTaskFormHandler} show={this.state.isCreateTaskFormShown}>
+          <CreateTaskForm closeFormHandler={this.onCloseTaskFormHandler} />
         </Modal>
         {this.sortTasksMenu}
+        {this.newTasksList}
         <ul>
           {tasks.map(id => (
             <li key={id}>
@@ -121,10 +151,13 @@ class TasksList extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     tasks: state.tasks.pagination.getIn([ownProps.page, 'ids']),
+    newTasks: state.tasks.newTasks.get('ids').toArray(),
     total: state.tasks.total,
     sortBy: state.tasks.sortBy,
     sortOrder: state.tasks.sortOrder,
-    loading: state.tasks.pagination.getIn([ownProps.page, 'loading'])
+    tasksLoading: state.tasks.pagination.getIn([ownProps.page, 'loading']),
+    newTasksLoading: state.tasks.newTasks.get('loading'),
+    newTasksError: state.tasks.newTasks.get('error')
   }
 }
 
