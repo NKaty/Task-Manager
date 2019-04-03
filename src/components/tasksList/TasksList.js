@@ -2,14 +2,29 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Task from '../task/Task'
 import Pagination from '../paganation/Paganation'
-import Select from '../ui/Select'
+import Input from '../ui/Input'
 import Button from '../ui/Button'
+import Modal from '../ui/Modal'
+import CreateTaskForm from '../createTaskForm/CreateTaskForm'
 import { loadTasksForPage } from '../../actions'
+
+const sortByOptions = [
+  { value: 'username', displayValue: 'имени пользователя' },
+  { value: 'email', displayValue: 'email' },
+  { value: 'status', displayValue: 'статусу' },
+  { value: 'none', displayValue: 'none' }
+]
+const sortOrderOptions = [
+  { value: 'asc', displayValue: 'возрастания' },
+  { value: 'desc', displayValue: 'убывания' },
+  { value: 'none', displayValue: 'none' }
+]
 
 class TasksList extends Component {
   state = {
     sortBy: this.props.sortBy,
-    sortOrder: this.props.sortOrder
+    sortOrder: this.props.sortOrder,
+    isCreateTaskFormShown: false
   }
 
   componentDidMount() {
@@ -33,21 +48,10 @@ class TasksList extends Component {
 
   onClickResetSortHandler = event => {
     event.preventDefault()
-    this.setState({ sortBy: 'none', sortOrder: 'none' }, () => this.fetchData())
+    this.setState({ sortBy: 'none', sortOrder: 'none' }, () => this.fetchData()) //componentDidUpdate
   }
 
   get sortTasksMenu() {
-    const sortByOptions = [
-      { value: 'username', displayValue: 'имени пользователя' },
-      { value: 'email', displayValue: 'email' },
-      { value: 'status', displayValue: 'статусу' },
-      { value: 'none', displayValue: 'none' }
-    ]
-    const sortOrderOptions = [
-      { value: 'asc', displayValue: 'возрастания' },
-      { value: 'desc', displayValue: 'убывания' },
-      { value: 'none', displayValue: 'none' }
-    ]
     const { sortBy, sortOrder } = this.state
     return (
       <div>
@@ -58,18 +62,18 @@ class TasksList extends Component {
         >
           Сортировать
         </Button>
-        <Select
+        <Input
+          elementType="select"
           label="по"
           value={this.state.sortBy}
-          name="sortBy"
-          options={sortByOptions}
+          elementConfig={{ name: 'sortBy', options: sortByOptions }}
           onChangeHandler={this.onSortChangeHandler}
         />
-        <Select
+        <Input
+          elementType="select"
           label="в порядке"
           value={this.state.sortOrder}
-          name="sortOrder"
-          options={sortOrderOptions}
+          elementConfig={{ name: 'sortOrder', options: sortOrderOptions }}
           onChangeHandler={this.onSortChangeHandler}
         />
         <Button btnType="action" onClickHandler={this.onClickResetSortHandler} disabled={false}>
@@ -79,12 +83,24 @@ class TasksList extends Component {
     )
   }
 
+  onClickCreateTaskHandler = event => {
+    event.preventDefault()
+    this.setState({ isCreateTaskFormShown: true })
+  }
+
+  createTaskCancelHandler = () => {
+    this.setState({ isCreateTaskFormShown: false })
+  }
+
   render() {
     const { tasks, total, page, loading } = this.props
     if (!total) return <div>Loading...</div>
     if (loading || !tasks) return <div>Loading...</div>
     return (
       <div>
+        <Modal modalCancel={this.createTaskCancelHandler} show={this.state.isCreateTaskFormShown}>
+          <CreateTaskForm taskCancelHandler={this.createTaskCancelHandler} />
+        </Modal>
         {this.sortTasksMenu}
         <ul>
           {tasks.map(id => (
@@ -93,6 +109,9 @@ class TasksList extends Component {
             </li>
           ))}
         </ul>
+        <Button btnType="action" onClickHandler={this.onClickCreateTaskHandler} disabled={false}>
+          Создать задание
+        </Button>
         <Pagination totalRecords={total} page={page} limit={3} pageNeighbours={1} />
       </div>
     )

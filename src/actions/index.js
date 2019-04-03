@@ -1,4 +1,4 @@
-import { LOAD_TASKS_FOR_PAGE, SUCCESS, FAIL, START } from '../constants'
+import { LOAD_TASKS_FOR_PAGE, ADD_TASK, SUCCESS, FAIL, START } from '../constants'
 
 export function loadTasksForPage(page, sortBy, sortOrder) {
   return (dispatch, getState) => {
@@ -38,6 +38,36 @@ export function loadTasksForPage(page, sortBy, sortOrder) {
         dispatch({
           type: LOAD_TASKS_FOR_PAGE + FAIL,
           payload: { page, sortBy, sortOrder },
+          error
+        })
+      )
+  }
+}
+
+export function addTask(form) {
+  const body = new FormData()
+  Object.keys(form).forEach(field => body.append(field, form[field]))
+
+  return (dispatch, getState) => {
+    dispatch({
+      type: ADD_TASK + START
+    })
+
+    fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Test', {
+      method: 'POST',
+      mode: 'cors',
+      body
+    })
+      .then(res => res.json())
+      .then(response =>
+        dispatch({
+          type: ADD_TASK + SUCCESS,
+          response
+        })
+      )
+      .catch(error =>
+        dispatch({
+          type: ADD_TASK + FAIL,
           error
         })
       )
