@@ -26,8 +26,8 @@ class Tasks extends Component {
     loadTasksForPage(page, sortBy, sortOrder)
   }
 
-  onSortChangeHandler = event => {
-    this.setState({ [event.currentTarget.name]: event.currentTarget.value })
+  onSortChangeHandler = opt => {
+    this.setState({ [opt.name]: opt.value })
   }
 
   onClickSortHandler = event => {
@@ -46,7 +46,7 @@ class Tasks extends Component {
   }
 
   onCloseTaskFormHandler = event => {
-    event.preventDefault()
+    event && event.preventDefault()
     this.setState({ isCreateTaskFormShown: false })
   }
 

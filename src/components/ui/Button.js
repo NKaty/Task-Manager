@@ -12,6 +12,7 @@ const StyledButton = styled.button`
     (btnType === 'danger' && '2px solid #db7093') ||
     '2px solid #0b9fe5'};
   border-radius: 3px;
+  cursor: pointer;
 
   :not([disabled]):hover {
     color: #fff;
