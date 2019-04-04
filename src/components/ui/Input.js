@@ -1,4 +1,31 @@
 import React, { Fragment } from 'react'
+import styled from 'styled-components'
+
+const StyledInput = styled.input`
+  border-radius: 3px;
+  border: ${({ invalid, touched }) =>
+    invalid && touched ? '1px solid #db7093' : '1px solid #0b9fe5'};
+  font-size: 1rem;
+  display: block;
+  width: 70%;
+  margin: 0 0 0.6rem;
+  padding: 0.5rem 1rem;
+`
+const StyledTextarea = styled(StyledInput)`
+  height: 100px;
+`
+const ErrorMessage = styled.p`
+  color: #db7093;
+  margin: 0;
+  padding: 0;
+  font-size: 0.8rem;
+`
+const ErrorMessagesWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 2rem;
+`
 
 const Input = ({
   elementType,
@@ -15,63 +42,66 @@ const Input = ({
   switch (elementType) {
     case 'input':
       inputElement = (
-        <label>
-          {label}
-          <input
-            className={`${invalid && touched ? ' isInvalid' : ''}`}
-            {...elementConfig}
-            value={value}
-            onChange={onChangeHandler}
-          />
-        </label>
+        <StyledInput
+          invalid={invalid}
+          touched={touched}
+          {...elementConfig}
+          value={value}
+          onChange={onChangeHandler}
+        />
       )
       break
     case 'textarea':
       inputElement = (
-        <label>
-          {label}
-          <textarea
-            className={`${invalid && touched ? ' isInvalid' : ''}`}
-            {...elementConfig}
-            value={value}
-            onChange={onChangeHandler}
-          />
-        </label>
+        <StyledTextarea
+          as="textarea"
+          invalid={invalid}
+          touched={touched}
+          {...elementConfig}
+          value={value}
+          onChange={onChangeHandler}
+        />
       )
       break
     case 'select':
       inputElement = (
-        <label>
-          {label}
-          <select name={elementConfig.name} value={value} onChange={onChangeHandler}>
-            {elementConfig.options.map(opt => (
-              <option key={opt.value} value={opt.value}>
-                {opt.displayValue}
-              </option>
-            ))}
-          </select>
-        </label>
+        <select name={elementConfig.name} value={value} onChange={onChangeHandler}>
+          {elementConfig.options.map(opt => (
+            <option key={opt.value} value={opt.value}>
+              {opt.displayValue}
+            </option>
+          ))}
+        </select>
       )
       break
 
     default:
       inputElement = (
-        <label>
-          {label}
-          <input
-            className={`${invalid && touched ? ' isInvalid' : ''}`}
-            {...elementConfig}
-            value={value}
-            onChange={onChangeHandler}
-          />
-        </label>
+        <tyledInput
+          invalid={invalid}
+          touched={touched}
+          {...elementConfig}
+          value={value}
+          onChange={onChangeHandler}
+        />
       )
   }
 
   return (
     <Fragment>
-      {invalid && validationErrors.map(error => <p key={error}>{error}</p>)}
-      {inputElement}
+      {touched !== undefined && (
+        <ErrorMessagesWrapper>
+          {invalid &&
+            validationErrors.map(error => <ErrorMessage key={error}>{error}</ErrorMessage>)}
+        </ErrorMessagesWrapper>
+      )}
+      {label ? (
+        <label>
+          {label} {inputElement}
+        </label>
+      ) : (
+        inputElement
+      )}
     </Fragment>
   )
 }

@@ -45,7 +45,8 @@ class Tasks extends Component {
     this.setState({ isCreateTaskFormShown: true })
   }
 
-  onCloseTaskFormHandler = () => {
+  onCloseTaskFormHandler = event => {
+    event.preventDefault()
     this.setState({ isCreateTaskFormShown: false })
   }
 

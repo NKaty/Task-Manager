@@ -18,7 +18,7 @@ const SortMenu = ({ sortBy, sortOrder, onClickSort, onSortChange, onClickResetSo
   return (
     <div>
       <Button
-        btnType="action"
+        // btnType="action"
         onClickHandler={onClickSort}
         disabled={sortBy === 'none' || sortOrder === 'none'}
       >
@@ -38,7 +38,7 @@ const SortMenu = ({ sortBy, sortOrder, onClickSort, onSortChange, onClickResetSo
         elementConfig={{ name: 'sortOrder', options: sortOrderOptions }}
         onChangeHandler={onSortChange}
       />
-      <Button btnType="action" onClickHandler={onClickResetSort} disabled={false}>
+      <Button btnType="danger" onClickHandler={onClickResetSort} disabled={false}>
         Убрать сортировку
       </Button>
     </div>

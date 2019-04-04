@@ -1,8 +1,28 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Input from '../ui/Input'
+import Button from '../ui/Button'
 import { checkInputValidity, checkFormValidity } from '../../utils/validation'
 import { addTask } from '../../actions'
+import styled from 'styled-components'
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+const ButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+`
+
+const FormHeader = styled.h2`
+  font-weight: 500;
+  color: #666;
+  text-align: center;
+  margin-bottom: 0.7rem;
+`
 
 class CreateTaskForm extends Component {
   state = {
@@ -79,11 +99,6 @@ class CreateTaskForm extends Component {
     this.props.closeFormHandler()
   }
 
-  taskCancelHandler = event => {
-    event.preventDefault()
-    this.props.closeFormHandler()
-  }
-
   render() {
     const formElements = Object.keys(this.state.taskForm).map(key => ({
       id: key,
@@ -92,15 +107,15 @@ class CreateTaskForm extends Component {
 
     return (
       <Fragment>
-        <h3>Новое задание</h3>
-        <form>
+        <FormHeader>Новое задание</FormHeader>
+        <StyledForm>
           {formElements.map(element => (
             <Input
               key={element.id}
               elementType={element.config.elementType}
               elementConfig={element.config.elementConfig}
               value={element.config.value}
-              label={element.config.label}
+              // label={element.config.label}
               validationErrors={
                 element.config.validationErrors ? element.config.validationErrors : []
               }
@@ -108,14 +123,19 @@ class CreateTaskForm extends Component {
               onChangeHandler={this.inputChangedHandler}
             />
           ))}
-          <button
-            disabled={!checkFormValidity(this.state.taskForm)}
-            onClick={this.taskCreateHandler}
-          >
-            Создать
-          </button>
-          <button onClick={this.taskCancelHandler}>Отменить</button>
-        </form>
+          <ButtonsWrapper>
+            <Button
+              btnType="action"
+              disabled={!checkFormValidity(this.state.taskForm)}
+              onClickHandler={this.taskCreateHandler}
+            >
+              Создать
+            </Button>
+            <Button btnType="danger" onClickHandler={this.props.closeFormHandler}>
+              Отменить
+            </Button>
+          </ButtonsWrapper>
+        </StyledForm>
       </Fragment>
     )
   }
