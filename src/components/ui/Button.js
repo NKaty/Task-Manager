@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledButton = styled.button`
+  display: inline-block;
   color: ${({ btnType }) =>
     (btnType === 'action' && '#0dc69e') || (btnType === 'danger' && '#db7093') || '#0b9fe5'};
   font-size: 1rem;

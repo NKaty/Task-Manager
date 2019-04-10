@@ -6,6 +6,7 @@ import SortMenu from '../sortMenu/SortMenu'
 import Pagination from '../paganation/Paganation'
 import Button from '../ui/Button'
 import Modal from '../ui/Modal'
+import Layout from '../layout/Layout'
 import CreateTaskForm from '../createTaskForm/CreateTaskForm'
 import { loadTasksForPage } from '../../actions'
 
@@ -67,7 +68,7 @@ class Tasks extends Component {
     const { sortBy, sortOrder } = this.state
 
     return (
-      <div>
+      <Layout>
         <Modal
           modalCancel={this.onCloseTaskFormHandler}
           show={this.state.isCreateTaskFormShown}
@@ -81,19 +82,20 @@ class Tasks extends Component {
           onClickResetSort={this.onClickResetSortHandler}
         />
         <NewTaskList tasks={newTasks} loading={newTasksLoading} errors={newTasksError} />
-        {tasksLoading || !tasks ? <div>Loading...</div> : <TaskList tasks={tasks} />}
+        {tasksLoading && <div>Loading...</div>}
+        {tasks ? <TaskList tasks={tasks} /> : 'Нет заданий'}
         <Button btnType="action" onClickHandler={this.onClickCreateTaskHandler} disabled={false}>
           Создать задание
         </Button>
         <Pagination totalRecords={total} page={page} limit={3} pageNeighbours={1} />
-      </div>
+      </Layout>
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    tasks: state.tasks.pagination.getIn([ownProps.page, 'ids']),
+    tasks: ['1', '2'], //state.tasks.pagination.getIn([ownProps.page, 'ids']),
     newTasks: state.tasks.newTasks.get('ids').toArray(),
     total: state.tasks.total,
     sortBy: state.tasks.sortBy,

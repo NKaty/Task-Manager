@@ -17,7 +17,7 @@ const NewTaskList = ({ loading, errors, tasks }) => {
           </ul>
         </div>
       )}
-      <TaskList tasks={tasks} />
+      {!!tasks.length && <TaskList tasks={tasks} showBorder={true} />}
     </Fragment>
   )
 }

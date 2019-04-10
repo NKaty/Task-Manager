@@ -16,10 +16,47 @@ const sortOrderOptions = [
 ]
 
 const StyledSortMenu = styled.div`
+  align-self: stretch;
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: column wrap;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2rem;
+
+  @media (min-width: 421px) {
+    flex-flow: row wrap;
+    > * {
+      :nth-child(1) {
+        order: 2;
+      }
+      :nth-child(2) {
+        order: 3;
+      }
+      :nth-child(3) {
+        order: 4;
+      }
+      :nth-child(4) {
+        order: 1;
+      }
+    }
+  }
+
+  @media (min-width: 588px) {
+    > * {
+      :nth-child(1) {
+        order: 1;
+      }
+      :nth-child(2) {
+        order: 2;
+      }
+      :nth-child(3) {
+        order: 3;
+      }
+      :nth-child(4) {
+        order: 4;
+      }
+    }
+  }
 `
 
 const SortMenu = ({ sortBy, sortOrder, onClickSort, onSortChange, onClickResetSort }) => {
@@ -35,7 +72,7 @@ const SortMenu = ({ sortBy, sortOrder, onClickSort, onSortChange, onClickResetSo
         options={sortOrderOptions}
         onChangeHandler={onSortChange}
       />
-      <Button btnType="danger" onClickHandler={onClickResetSort} disabled={false}>
+      <Button btnType="danger" onClickHandler={onClickResetSort}>
         Убрать сортировку
       </Button>
     </StyledSortMenu>

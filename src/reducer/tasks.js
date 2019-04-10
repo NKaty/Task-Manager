@@ -2,6 +2,23 @@ import { Record, OrderedMap, Map, List } from 'immutable'
 import { arrToMap } from './utils'
 import { LOAD_TASKS_FOR_PAGE, ADD_TASK, START, SUCCESS, FAIL } from '../constants'
 
+const tasks = {
+  '1': {
+    id: 1,
+    username: 'jfjfjfhhfhf',
+    email: 'fkf@fkfk.fj',
+    text: 'fkfkjfjfhhjdjdjhdh',
+    status: 0
+  },
+  '2': {
+    id: 1,
+    username: 'jfjfjfhhfhf',
+    email: 'fkf@fkfk.fj',
+    text: 'fkfkjfjfhhjdjdjhdh',
+    status: 0
+  }
+}
+
 const TaskRecord = Record({
   id: null,
   username: null,
@@ -11,12 +28,12 @@ const TaskRecord = Record({
 })
 
 const ReducerRecord = Record({
-  entities: OrderedMap({}),
+  entities: OrderedMap(tasks),
   pagination: Map({}),
   newTasks: Map({ ids: List() }),
   sortBy: 'none',
   sortOrder: 'none',
-  total: null
+  total: 1
 })
 
 export default (state = ReducerRecord(), action) => {
