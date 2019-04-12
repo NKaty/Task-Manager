@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import TaskList from '../taskList/TaskList'
-import NewTaskList from '../newTaskList/NewTaskList'
+import NewTaskList from '../taskList/NewTaskList'
+import TaskListWithButton from '../taskList/TaskListWithButton'
 import SortMenu from '../sortMenu/SortMenu'
 import Pagination from '../pagination/Pagination'
-import Button from '../ui/Button'
 import Modal from '../ui/Modal'
 import CreateTaskForm from '../createTaskForm/CreateTaskForm'
 import { loadTasksForPage } from '../../actions'
@@ -82,10 +81,10 @@ class Tasks extends Component {
         />
         <NewTaskList tasks={newTasks} loading={newTasksLoading} errors={newTasksError} />
         {tasksLoading && <div>Loading...</div>}
-        {tasks ? <TaskList tasks={tasks} /> : 'Нет заданий'}
-        <Button btnType="action" onClickHandler={this.onClickCreateTaskHandler} disabled={false}>
-          Создать задание
-        </Button>
+        <TaskListWithButton
+          tasks={tasks}
+          onClickCreateTaskHandler={this.onClickCreateTaskHandler}
+        />
         <Pagination totalRecords={total} page={page} limit={3} pageNeighbours={1} />
       </Fragment>
     )

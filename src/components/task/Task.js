@@ -11,6 +11,7 @@ const StyledTask = styled(Card)`
 `
 
 const TaskInfo = styled(CardInfo)`
+  padding: 1rem;
   span {
     padding-top: 0.5rem;
     margin-right: 1.5rem;

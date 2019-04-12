@@ -4,7 +4,6 @@ import { Range } from 'immutable'
 import styled from 'styled-components'
 
 const StyledPagination = styled.ul`
-  align-self: stretch;
   display: flex;
   justify-content: center;
   align-items: center;

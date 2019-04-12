@@ -16,12 +16,11 @@ const sortOrderOptions = [
 ]
 
 const StyledSortMenu = styled.div`
-  align-self: stretch;
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 
   @media (min-width: 421px) {
     flex-flow: row wrap;

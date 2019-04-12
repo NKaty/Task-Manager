@@ -3,9 +3,8 @@ import Task from '../task/Task'
 import styled from 'styled-components'
 
 const StyledTaskList = styled.ul`
-  align-self: stretch;
   list-style: none;
-  margin: 0 0 2rem 0;
+  margin: 1rem 0 1rem 0;
   padding: 1rem;
   border: ${({ showBorder }) => (showBorder ? '1px solid #db7093' : 'none')};
 
@@ -18,8 +17,13 @@ const StyledTaskList = styled.ul`
   }
 `
 
+const Message = styled.h3`
+  margin-top: 0;
+  margin-left: 1rem;
+`
+
 const TaskList = ({ tasks, showBorder }) => {
-  return (
+  return !!tasks.length ? (
     <StyledTaskList showBorder={showBorder}>
       {tasks.map(id => (
         <li key={id}>
@@ -27,6 +31,8 @@ const TaskList = ({ tasks, showBorder }) => {
         </li>
       ))}
     </StyledTaskList>
+  ) : (
+    <Message>Заданий еще нет.</Message>
   )
 }
 

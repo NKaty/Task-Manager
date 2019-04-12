@@ -11,11 +11,9 @@ import styled from 'styled-components'
 
 const ErrorMessageWrapper = styled.div`
   background-color: #fad2d6;
-  margin-bottom: 1rem;
 `
 
 const ErrorMessage = styled(Card)`
-  align-self: stretch;
   color: #7b0a1c;
 `
 
@@ -27,13 +25,13 @@ const ErrorInfo = styled(CardInfo)`
   }
 
   p {
-    margin: 0 0 0.5rem 0.5rem;
+    margin: 0.2rem 0 0.2rem 0.5rem;
   }
 
   ul {
     list-style: none;
-    padding: 0 0 0 0.5rem;
-    margin: 0;
+    padding: 0;
+    margin: 0.2rem 0 0.2rem 0.5rem;
   }
 `
 
