@@ -37,7 +37,7 @@ const ReducerRecord = Record({
 })
 
 export default (state = ReducerRecord(), action) => {
-  const { type, payload, response, error } = action
+  const { type, payload, response } = action
 
   switch (type) {
     case LOAD_TASKS_FOR_PAGE + START:
@@ -64,7 +64,7 @@ export default (state = ReducerRecord(), action) => {
         .setIn(['pagination', payload.page, 'loading'], false)
 
     case ADD_TASK + START:
-      return state.setIn(['newTasks', 'loading'], true).setIn(['newTasks', 'error'], null)
+      return state.setIn(['newTasks', 'loading'], true)
 
     case ADD_TASK + SUCCESS:
       return state
@@ -73,7 +73,7 @@ export default (state = ReducerRecord(), action) => {
         .setIn(['newTasks', 'loading'], false)
 
     case ADD_TASK + FAIL:
-      return state.setIn(['newTasks', 'error'], error).setIn(['newTasks', 'loading'], false)
+      return state.setIn(['newTasks', 'loading'], false)
 
     default:
       return state

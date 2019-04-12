@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import TaskList from '../taskList/TaskList'
 import NewTaskList from '../newTaskList/NewTaskList'
@@ -6,7 +6,6 @@ import SortMenu from '../sortMenu/SortMenu'
 import Pagination from '../paganation/Paganation'
 import Button from '../ui/Button'
 import Modal from '../ui/Modal'
-import Layout from '../layout/Layout'
 import CreateTaskForm from '../createTaskForm/CreateTaskForm'
 import { loadTasksForPage } from '../../actions'
 
@@ -68,7 +67,7 @@ class Tasks extends Component {
     const { sortBy, sortOrder } = this.state
 
     return (
-      <Layout>
+      <Fragment>
         <Modal
           modalCancel={this.onCloseTaskFormHandler}
           show={this.state.isCreateTaskFormShown}
@@ -88,7 +87,7 @@ class Tasks extends Component {
           Создать задание
         </Button>
         <Pagination totalRecords={total} page={page} limit={3} pageNeighbours={1} />
-      </Layout>
+      </Fragment>
     )
   }
 }

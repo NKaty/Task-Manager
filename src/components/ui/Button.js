@@ -26,8 +26,28 @@ const StyledButton = styled.button`
   }
 `
 
-const Button = ({ children, onClickHandler, btnType, disabled }) => (
-  <StyledButton btnType={btnType} onClick={onClickHandler} disabled={disabled}>
+const FilledStyledButton = styled(StyledButton)`
+  color: #fff;
+  background-color: ${({ btnType }) =>
+    (btnType === 'action' && '#0dc69e') || (btnType === 'danger' && '#db7093') || '#0b9fe5'};
+
+  :not([disabled]):hover {
+    background-color: ${({ btnType }) =>
+      (btnType === 'action' && '#01a582') || (btnType === 'danger' && '#d65781') || '#017fba'};
+    border: ${({ btnType }) =>
+      (btnType === 'action' && '2px solid #01a582') ||
+      (btnType === 'danger' && '2px solid #d65781') ||
+      '2px solid #017fba'};
+  }
+`
+
+const Button = ({ children, onClickHandler, btnType, fill, disabled }) => (
+  <StyledButton
+    as={fill && FilledStyledButton}
+    btnType={btnType}
+    onClick={onClickHandler}
+    disabled={disabled}
+  >
     {children}
   </StyledButton>
 )

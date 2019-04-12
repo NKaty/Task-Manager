@@ -1,5 +1,13 @@
-import { LOAD_TASKS_FOR_PAGE, ADD_TASK, SUCCESS, FAIL, START } from '../constants'
-let id = 1
+import {
+  LOAD_TASKS_FOR_PAGE,
+  ADD_TASK,
+  RESET_ERROR_MESSAGE,
+  SUCCESS,
+  FAIL,
+  START
+} from '../constants'
+import callAPI from '../utils/callAPI'
+import convertErrorFields from '../utils/convertErrorFields'
 
 export function loadTasksForPage(page, sortBy, sortOrder) {
   return (dispatch, getState) => {
@@ -27,8 +35,7 @@ export function loadTasksForPage(page, sortBy, sortOrder) {
       payload: { page, sortBy, sortOrder }
     })
 
-    fetch(`https://uxcandy.com/~shapoval/test-task-backend/?${params}`)
-      .then(res => res.json())
+    callAPI(`https://uxcandy.com/~shapoval/test-task-backend/?${params}`)
       .then(response =>
         dispatch({
           type: LOAD_TASKS_FOR_PAGE + SUCCESS,
@@ -40,7 +47,11 @@ export function loadTasksForPage(page, sortBy, sortOrder) {
         dispatch({
           type: LOAD_TASKS_FOR_PAGE + FAIL,
           payload: { page, sortBy, sortOrder },
-          error
+          error: {
+            title: 'Не удалось получить список заданий',
+            errors:
+              typeof error.message === 'object' ? convertErrorFields(error.message) : error.message
+          }
         })
       )
   }
@@ -55,54 +66,58 @@ export function addTask(form) {
       type: ADD_TASK + START
     })
 
-    // fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Test', {
-    //   method: 'POST',
-    //   mode: 'cors',
-    //   body
-    // })
-    //   .then(res => {
-    //     console.log(res)
-    //     // console.log(res.json())
-    //     return res.json()
-    //   })
-    //   .then(response => {
-    //     console.log('success')
-    //     dispatch({
-    //       type: ADD_TASK + SUCCESS,
-    //       response
-    //     })
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //     dispatch({
-    //       type: ADD_TASK + FAIL,
-    //       error
-    //     })
-    //   })
-
-    setTimeout(
-      () =>
-        // dispatch({
-        //   type: ADD_TASK + FAIL,
-        //   error: {
-        //     username: 'Поле является обязательным для заполнения',
-        //     email: 'Неверный email',
-        //     text: 'Поле является обязательным для заполнения'
-        //   }
-        // }),
+    callAPI('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Test', {
+      method: 'POST',
+      mode: 'cors',
+      body
+    })
+      .then(response => {
         dispatch({
           type: ADD_TASK + SUCCESS,
-          response: {
-            message: {
-              id: id++,
-              username: form.username,
-              email: form.email,
-              text: form.text,
-              status: 0
-            }
+          response
+        })
+      })
+      .catch(error => {
+        console.log(error.message)
+        dispatch({
+          type: ADD_TASK + FAIL,
+          error: {
+            title: 'Новое задание не удалось создать.',
+            errors:
+              typeof error.message === 'object' ? convertErrorFields(error.message) : error.message
           }
-        }),
-      3000
-    )
+        })
+      })
+
+    // setTimeout(
+    //   () =>
+    //     dispatch({
+    //       type: ADD_TASK + FAIL,
+    //       error: {
+    //         username: 'Поле является обязательным для заполнения',
+    //         email: 'Неверный email',
+    //         text: 'Поле является обязательным для заполнения'
+    //       }
+    //     }),
+    // dispatch({
+    //   type: ADD_TASK + SUCCESS,
+    //   response: {
+    //     message: {
+    //       id: id++,
+    //       username: form.username,
+    //       email: form.email,
+    //       text: form.text,
+    //       status: 0
+    //     }
+    //   }
+    // }),
+    //   1000
+    // )
+  }
+}
+
+export function resetErrorMessage() {
+  return {
+    type: RESET_ERROR_MESSAGE
   }
 }

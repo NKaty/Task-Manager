@@ -37,8 +37,8 @@ class CreateTaskForm extends Component {
         label: 'Имя',
         value: '',
         validation: {
-          required: true,
-          minLength: 3
+          // required: true,
+          // minLength: 3
         },
         validationErrors: [],
         touched: false

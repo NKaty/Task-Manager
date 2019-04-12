@@ -10,6 +10,7 @@ const StyledLayout = styled.div`
 
   @media (min-width: 500px) {
     align-items: flex-start;
+    margin: 0 auto;
   }
 `
 

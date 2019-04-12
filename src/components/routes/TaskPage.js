@@ -4,11 +4,7 @@ import Tasks from '../tasks/Tasks'
 
 class TasksPage extends Component {
   render() {
-    return (
-      <div>
-        <Route path="/:page" children={this.getTasks} exact />
-      </div>
-    )
+    return <Route path="/:page" children={this.getTasks} exact />
   }
 
   getTasks = ({ match }) => {
