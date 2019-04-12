@@ -1,6 +1,67 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Range } from 'immutable'
+import styled from 'styled-components'
+
+const StyledPagination = styled.ul`
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    font-size: 1rem;
+    border: 1px solid #eae5e5;
+    border-left: none;
+  }
+
+  li:first-child {
+    border-left: 1px solid #eae5e5;
+  }
+
+  @media (min-width: 360px) {
+    li {
+      font-size: 1.2rem;
+    }
+  }
+`
+
+const StyledLink = styled(Link)`
+  display: block;
+  color: #0b9fe5;
+  background-color: #fff;
+  padding: 0.8rem 1rem;
+  text-decoration: none;
+
+  :hover {
+    color: #017fba;
+    background-color: #f7f4f4;
+    text-decoration: none;
+  }
+
+  :active,
+  :visited {
+    text-decoration: none;
+  }
+
+  @media (min-width: 360px) {
+    padding: 1rem 1.2rem;
+  }
+`
+
+const CurrentPage = styled.p`
+  margin: 0;
+  padding: 0.8rem 1rem;
+  color: #017fba;
+  background-color: #f7f4f4;
+
+  @media (min-width: 360px) {
+    padding: 1rem 1.2rem;
+  }
+`
 
 const Pagination = ({ totalRecords, page, limit, pageNeighbours }) => {
   const LEFT_ARROW = 'LEFT_ARROW'
@@ -32,12 +93,12 @@ const Pagination = ({ totalRecords, page, limit, pageNeighbours }) => {
   return (
     totalRecords &&
     totalPages !== 1 && (
-      <ul>
+      <StyledPagination>
         {getPaginationItems().map(item => {
           if (item === LEFT_ARROW) {
             return (
               <li key={item}>
-                <Link to={`/${page - pageNeighbours * 2 - 1}`}>&laquo;</Link>
+                <StyledLink to={`/${page - pageNeighbours * 2 - 1}`}>&laquo;</StyledLink>
               </li>
             )
           }
@@ -45,22 +106,26 @@ const Pagination = ({ totalRecords, page, limit, pageNeighbours }) => {
           if (item === RIGHT_ARROW) {
             return (
               <li key={item}>
-                <Link to={`/${page + pageNeighbours * 2 + 1}`}>&raquo;</Link>
+                <StyledLink to={`/${page + pageNeighbours * 2 + 1}`}>&raquo;</StyledLink>
               </li>
             )
           }
 
           if (item === page) {
-            return <li key={item}>{item}</li>
+            return (
+              <li key={item}>
+                <CurrentPage>{item}</CurrentPage>
+              </li>
+            )
           }
 
           return (
             <li key={item}>
-              <Link to={`/${item}`}>{item}</Link>
+              <StyledLink to={`/${item}`}>{item}</StyledLink>
             </li>
           )
         })}
-      </ul>
+      </StyledPagination>
     )
   )
 }
