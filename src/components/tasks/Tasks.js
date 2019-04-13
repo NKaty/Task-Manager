@@ -7,6 +7,15 @@ import Pagination from '../pagination/Pagination'
 import Modal from '../ui/Modal'
 import CreateTaskForm from '../createTaskForm/CreateTaskForm'
 import Loader from '../ui/Loader'
+import {
+  totalTasksSelector,
+  tasksPageSelector,
+  sortBySelector,
+  sortOrderSelector,
+  newTasksSelector,
+  newTaskLoadingSelector,
+  tasksPageLoadingSelector
+} from '../../selectors'
 import { loadTasksForPage } from '../../actions'
 
 class Tasks extends Component {
@@ -54,9 +63,11 @@ class Tasks extends Component {
   modalRender = () => <CreateTaskForm closeFormHandler={this.onCloseTaskFormHandler} />
 
   render() {
-    const { tasks, total, page, tasksLoading, newTasks, newTasksLoading } = this.props
+    const { tasks, total, page, tasksLoading, newTasks, newTaskLoading } = this.props
 
     const { sortBy, sortOrder } = this.state
+
+    console.log(tasks)
 
     return (
       <Fragment>
@@ -72,12 +83,14 @@ class Tasks extends Component {
           onSortChange={this.onSortChangeHandler}
           onClickResetSort={this.onClickResetSortHandler}
         />
-        {(tasksLoading || newTasksLoading) && <Loader />}
-        {!!newTasks.length && <TaskList tasks={newTasks} showBorder={true} />}
-        <TaskListWithButton
-          tasks={tasks}
-          onClickCreateTaskHandler={this.onClickCreateTaskHandler}
-        />
+        {(tasksLoading || newTaskLoading) && <Loader />}
+        {newTasks && !!newTasks.length && <TaskList tasks={newTasks} showBorder={true} />}
+        {tasks && (
+          <TaskListWithButton
+            tasks={tasks}
+            onClickCreateTaskHandler={this.onClickCreateTaskHandler}
+          />
+        )}
         <Pagination totalRecords={total} page={page} limit={3} pageNeighbours={1} />
       </Fragment>
     )
@@ -86,13 +99,13 @@ class Tasks extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    tasks: ['1', '2'], //state.tasks.pagination.getIn([ownProps.page, 'ids']),
-    newTasks: state.tasks.newTasks.get('ids').toArray(),
-    total: state.tasks.total,
-    sortBy: state.tasks.sortBy,
-    sortOrder: state.tasks.sortOrder,
-    tasksLoading: state.tasks.pagination.getIn([ownProps.page, 'loading']),
-    newTasksLoading: state.tasks.newTasks.get('loading')
+    tasks: tasksPageSelector(state, ownProps),
+    newTasks: newTasksSelector(state),
+    total: totalTasksSelector(state),
+    sortBy: sortBySelector(state),
+    sortOrder: sortOrderSelector(state),
+    tasksLoading: tasksPageLoadingSelector(state, ownProps),
+    newTaskLoading: newTaskLoadingSelector(state)
   }
 }
 

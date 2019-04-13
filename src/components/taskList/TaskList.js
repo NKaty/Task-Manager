@@ -22,7 +22,7 @@ const Message = styled.h3`
   margin-left: 1rem;
 `
 
-const TaskList = ({ tasks, showBorder, loading }) => {
+const TaskList = ({ tasks, showBorder }) => {
   return (
     <Fragment>
       {!!tasks.length ? (

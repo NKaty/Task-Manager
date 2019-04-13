@@ -5,6 +5,7 @@ import Button from '../ui/Button'
 import Card from '../card/Card'
 import CardInfo from '../card/CardInfo'
 import CardMenu from '../card/CardMenu'
+import { errorSelector } from '../../selectors'
 import { resetErrorMessage } from '../../actions'
 import { errorMessages } from './errorDictionary'
 import styled from 'styled-components'
@@ -88,7 +89,7 @@ class GlobalError extends Component {
 
 const mapStateToProps = state => {
   return {
-    error: state.error
+    error: errorSelector(state)
   }
 }
 
