@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Task from '../task/Task'
 import styled from 'styled-components'
 
@@ -22,17 +22,21 @@ const Message = styled.h3`
   margin-left: 1rem;
 `
 
-const TaskList = ({ tasks, showBorder }) => {
-  return !!tasks.length ? (
-    <StyledTaskList showBorder={showBorder}>
-      {tasks.map(id => (
-        <li key={id}>
-          <Task id={id} />
-        </li>
-      ))}
-    </StyledTaskList>
-  ) : (
-    <Message>Заданий еще нет.</Message>
+const TaskList = ({ tasks, showBorder, loading }) => {
+  return (
+    <Fragment>
+      {!!tasks.length ? (
+        <StyledTaskList showBorder={showBorder}>
+          {tasks.map(id => (
+            <li key={id}>
+              <Task id={id} />
+            </li>
+          ))}
+        </StyledTaskList>
+      ) : (
+        <Message>Заданий еще нет.</Message>
+      )}
+    </Fragment>
   )
 }
 

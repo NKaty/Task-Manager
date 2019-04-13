@@ -89,30 +89,31 @@ export function addTask(form) {
         })
       })
 
-    // setTimeout(
-    //   () =>
-    //     dispatch({
-    //       type: ADD_TASK + FAIL,
-    //       error: {
-    //         username: 'Поле является обязательным для заполнения',
-    //         email: 'Неверный email',
-    //         text: 'Поле является обязательным для заполнения'
-    //       }
-    //     }),
-    // dispatch({
-    //   type: ADD_TASK + SUCCESS,
-    //   response: {
-    //     message: {
-    //       id: id++,
-    //       username: form.username,
-    //       email: form.email,
-    //       text: form.text,
-    //       status: 0
-    //     }
-    //   }
-    // }),
-    //   1000
-    // )
+    let id = 1
+    setTimeout(
+      () =>
+        //     dispatch({
+        //       type: ADD_TASK + FAIL,
+        //       error: {
+        //         username: 'Поле является обязательным для заполнения',
+        //         email: 'Неверный email',
+        //         text: 'Поле является обязательным для заполнения'
+        //       }
+        //     }),
+        dispatch({
+          type: ADD_TASK + SUCCESS,
+          response: {
+            message: {
+              id: id++,
+              username: form.username,
+              email: form.email,
+              text: form.text,
+              status: 0
+            }
+          }
+        }),
+      1000
+    )
   }
 }
 

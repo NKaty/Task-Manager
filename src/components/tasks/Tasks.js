@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import NewTaskList from '../taskList/NewTaskList'
+import TaskList from '../taskList/TaskList'
 import TaskListWithButton from '../taskList/TaskListWithButton'
 import SortMenu from '../sortMenu/SortMenu'
 import Pagination from '../pagination/Pagination'
 import Modal from '../ui/Modal'
 import CreateTaskForm from '../createTaskForm/CreateTaskForm'
+import Loader from '../ui/Loader'
 import { loadTasksForPage } from '../../actions'
 
 class Tasks extends Component {
@@ -53,15 +54,7 @@ class Tasks extends Component {
   modalRender = () => <CreateTaskForm closeFormHandler={this.onCloseTaskFormHandler} />
 
   render() {
-    const {
-      tasks,
-      total,
-      page,
-      tasksLoading,
-      newTasks,
-      newTasksLoading,
-      newTasksError
-    } = this.props
+    const { tasks, total, page, tasksLoading, newTasks, newTasksLoading } = this.props
 
     const { sortBy, sortOrder } = this.state
 
@@ -79,8 +72,8 @@ class Tasks extends Component {
           onSortChange={this.onSortChangeHandler}
           onClickResetSort={this.onClickResetSortHandler}
         />
-        <NewTaskList tasks={newTasks} loading={newTasksLoading} errors={newTasksError} />
-        {tasksLoading && <div>Loading...</div>}
+        {(tasksLoading || newTasksLoading) && <Loader />}
+        {!!newTasks.length && <TaskList tasks={newTasks} showBorder={true} />}
         <TaskListWithButton
           tasks={tasks}
           onClickCreateTaskHandler={this.onClickCreateTaskHandler}
@@ -99,8 +92,7 @@ const mapStateToProps = (state, ownProps) => {
     sortBy: state.tasks.sortBy,
     sortOrder: state.tasks.sortOrder,
     tasksLoading: state.tasks.pagination.getIn([ownProps.page, 'loading']),
-    newTasksLoading: state.tasks.newTasks.get('loading'),
-    newTasksError: state.tasks.newTasks.get('error')
+    newTasksLoading: state.tasks.newTasks.get('loading')
   }
 }
 
