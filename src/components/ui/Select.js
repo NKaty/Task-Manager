@@ -4,22 +4,23 @@ import styled from 'styled-components'
 const SelectWrapper = styled.div`
   display: inline-block;
   position: relative;
-  min-width: 10rem;
+  min-width: 12rem;
+  max-width: 12rem;
   min-height: 1.6rem;
   max-height: 1.6rem;
   margin: 1rem;
-  /* border: 3px solid black; */
+  border: 2px solid transparent;
 `
 const StyledSelect = styled.span`
-  min-width: 10rem;
-  max-width: 10rem;
   position: absolute;
   display: inline-block;
+  min-width: 12rem;
+  max-width: 12rem;
   min-height: 1.6rem;
   max-height: 1.6rem;
   overflow: hidden;
   top: -2px;
-  left: 0;
+  left: -2px;
   cursor: pointer;
   text-align: left;
   white-space: nowrap;

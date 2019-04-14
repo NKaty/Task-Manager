@@ -63,6 +63,9 @@ export default (state = ReducerRecord(), action) => {
         .setIn(['pagination', payload.page, 'ids'], response.message.tasks.map(task => task.id))
         .setIn(['pagination', payload.page, 'loading'], false)
 
+    case LOAD_TASKS_FOR_PAGE + FAIL:
+      return state.setIn(['pagination', payload.page, 'loading'], false)
+
     case ADD_TASK + START:
       return state.setIn(['newTasks', 'loading'], true)
 

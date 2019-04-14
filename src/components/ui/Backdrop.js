@@ -13,4 +13,8 @@ const StyledBackdrop = styled.div`
 
 const Backdrop = ({ removeBackdrop }) => <StyledBackdrop onClick={removeBackdrop} />
 
+Backdrop.defaultProps = {
+  removeBackdrop: () => {}
+}
+
 export default Backdrop

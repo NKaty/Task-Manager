@@ -24,9 +24,6 @@
     "eslint": "eslint --fix --max-warnings=0",
     "prettier": "prettier --write"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": [
     ">0.2%",
     "not dead",

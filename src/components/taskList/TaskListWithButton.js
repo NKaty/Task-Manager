@@ -5,11 +5,6 @@ import styled from 'styled-components'
 
 const StyledTaskListWithButton = styled.div`
   margin-bottom: 2rem;
-  text-align: center;
-
-  @media (min-width: 500px) {
-    text-align: left;
-  }
 `
 
 const TaskListWithButton = ({ tasks, onClickCreateTaskHandler }) => {

@@ -59,7 +59,7 @@ const StyledLoader = styled.div`
 const Loader = () => {
   return (
     <Fragment>
-      <Backdrop removeBackdrop={null} />
+      <Backdrop />
       <LoaderWrapper>
         <StyledLoader />
       </LoaderWrapper>

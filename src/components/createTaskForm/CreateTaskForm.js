@@ -88,6 +88,15 @@ class CreateTaskForm extends Component {
     this.setState({ taskForm })
   }
 
+  resetForm = () => {
+    const taskForm = Object.keys(this.state.taskForm).reduce((acc, element) => {
+      acc[element] = { ...this.state.taskForm[element] }
+      acc[element].value = ''
+      return acc
+    }, {})
+    this.setState({ taskForm })
+  }
+
   taskCreateHandler = event => {
     event.preventDefault()
     const taskFormData = Object.keys(this.state.taskForm).reduce((acc, key) => {
@@ -96,6 +105,7 @@ class CreateTaskForm extends Component {
     }, {})
     console.log(taskFormData)
     this.props.addTask(taskFormData)
+    this.resetForm()
     this.props.closeFormHandler()
   }
 
@@ -115,7 +125,6 @@ class CreateTaskForm extends Component {
               elementType={element.config.elementType}
               elementConfig={element.config.elementConfig}
               value={element.config.value}
-              // label={element.config.label}
               validationErrors={
                 element.config.validationErrors ? element.config.validationErrors : []
               }

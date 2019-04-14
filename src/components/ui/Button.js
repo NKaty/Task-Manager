@@ -52,4 +52,8 @@ const Button = ({ children, onClickHandler, btnType, fill, disabled }) => (
   </StyledButton>
 )
 
+Button.defaultProps = {
+  disabled: false
+}
+
 export default Button

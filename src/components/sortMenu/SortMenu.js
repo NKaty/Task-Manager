@@ -22,8 +22,11 @@ const StyledSortMenu = styled.div`
   align-items: center;
   margin-bottom: 1rem;
 
-  @media (min-width: 421px) {
+  @media (min-width: 500px) {
     flex-flow: row wrap;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
     > * {
       :nth-child(1) {
         order: 2;
@@ -40,7 +43,9 @@ const StyledSortMenu = styled.div`
     }
   }
 
-  @media (min-width: 588px) {
+  @media (min-width: 680px) {
+    padding-left: 0;
+    padding-right: 0;
     > * {
       :nth-child(1) {
         order: 1;

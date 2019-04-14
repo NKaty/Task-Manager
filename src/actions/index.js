@@ -9,6 +9,8 @@ import {
 import callAPI from '../utils/callAPI'
 import convertErrorFields from '../utils/convertErrorFields'
 
+const url = 'https://uxcandy.com/~shapoval/test-task-backend/'
+
 export function loadTasksForPage(page, sortBy, sortOrder) {
   return (dispatch, getState) => {
     const {
@@ -23,19 +25,21 @@ export function loadTasksForPage(page, sortBy, sortOrder) {
     )
       return
 
-    let params = `developer=Test&page=${page}`
-    params = sortBy === 'none' ? params : `${params}&sort_field=${sortBy}`
+    let params = `developer=Test&page=${encodeURIComponent(page)}`
+    params = sortBy === 'none' ? params : `${params}&sort_field=${encodeURIComponent(sortBy)}`
     params =
       sortOrder === 'none'
-        ? `${params}&sort_direction='asc'`
-        : `${params}&sort_direction=${sortOrder}`
+        ? sortBy === 'none'
+          ? params
+          : `${params}&sort_direction='asc'`
+        : `${params}&sort_direction=${encodeURIComponent(sortOrder)}`
 
     dispatch({
       type: LOAD_TASKS_FOR_PAGE + START,
       payload: { page, sortBy, sortOrder }
     })
 
-    callAPI(`https://uxcandy.com/~shapoval/test-task-backend/?${params}`)
+    callAPI(`${url}?${params}`)
       .then(response =>
         dispatch({
           type: LOAD_TASKS_FOR_PAGE + SUCCESS,
@@ -61,12 +65,12 @@ export function addTask(form) {
   const body = new FormData()
   Object.keys(form).forEach(field => body.append(field, form[field]))
 
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch({
       type: ADD_TASK + START
     })
 
-    callAPI('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Test', {
+    callAPI(`${url}create?developer=Test`, {
       method: 'POST',
       mode: 'cors',
       body

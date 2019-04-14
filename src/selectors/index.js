@@ -28,8 +28,3 @@ export const sortBySelector = state => state.tasks.sortBy
 export const sortOrderSelector = state => state.tasks.sortOrder
 
 export const errorSelector = state => state.error
-
-// export const tasksSelector = state.tasks.pagination.getIn([ownProps.page, 'ids'])
-// export const newTasksSelector = state => state.tasks.newTasks.get('ids').toArray()
-
-// export const tasksLoading = state => state.tasks.pagination.getIn([ownProps.page, 'loading'])
