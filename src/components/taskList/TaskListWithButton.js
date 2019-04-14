@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import TaskList from '../taskList/TaskList'
 import Button from '../ui/Button'
 import styled from 'styled-components'
@@ -16,6 +17,11 @@ const TaskListWithButton = ({ tasks, onClickCreateTaskHandler }) => {
       </Button>
     </StyledTaskListWithButton>
   )
+}
+
+TaskListWithButton.propTypes = {
+  tasks: PropTypes.arrayOf(PropTypes.number).isRequired,
+  onClickCreateTaskHandler: PropTypes.func.isRequired
 }
 
 export default TaskListWithButton

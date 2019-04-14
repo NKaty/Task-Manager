@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import Input from '../ui/Input'
 import Button from '../ui/Button'
 import { checkInputValidity, checkFormValidity } from '../../utils/validation'
@@ -148,6 +149,11 @@ class CreateTaskForm extends Component {
       </Fragment>
     )
   }
+}
+
+CreateTaskForm.propTypes = {
+  addTask: PropTypes.func.isRequired,
+  closeFormHandler: PropTypes.func.isRequired
 }
 
 export default connect(

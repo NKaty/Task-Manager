@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
 import Task from '../task/Task'
 import styled from 'styled-components'
 
@@ -38,6 +39,19 @@ const TaskList = ({ tasks, showBorder }) => {
       )}
     </Fragment>
   )
+}
+
+TaskList.defaultProps = {
+  showBorder: false
+}
+
+TaskList.propTypes = {
+  tasks: PropTypes.arrayOf(PropTypes.number).isRequired,
+  showBorder: PropTypes.bool
+}
+
+StyledTaskList.propTypes = {
+  showBorder: PropTypes.bool.isRequired
 }
 
 export default TaskList

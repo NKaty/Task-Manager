@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const StyledInput = styled.input`
@@ -77,7 +78,7 @@ const Input = ({
 
     default:
       inputElement = (
-        <tyledInput
+        <StyledInput
           invalid={invalid}
           touched={touched}
           {...elementConfig}
@@ -104,6 +105,31 @@ const Input = ({
       )}
     </Fragment>
   )
+}
+
+Input.propTypes = {
+  elementType: PropTypes.string,
+  elementConfig: PropTypes.object.isRequired,
+  value: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  onChangeHandler: PropTypes.func.isRequired,
+  validationErrors: PropTypes.arrayOf(PropTypes.string),
+  touched: PropTypes.bool
+}
+
+StyledInput.propTypes = {
+  invalid: PropTypes.bool.isRequired,
+  touched: PropTypes.bool.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
+}
+
+StyledTextarea.propTypes = {
+  as: PropTypes.string,
+  invalid: PropTypes.bool.isRequired,
+  touched: PropTypes.bool.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 export default Input

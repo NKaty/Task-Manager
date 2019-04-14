@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Select from '../ui/Select'
 import Button from '../ui/Button'
 import styled from 'styled-components'
@@ -81,6 +82,14 @@ const SortMenu = ({ sortBy, sortOrder, onClickSort, onSortChange, onClickResetSo
       </Button>
     </StyledSortMenu>
   )
+}
+
+SortMenu.propTypes = {
+  sortBy: PropTypes.string.isRequired,
+  sortOrder: PropTypes.string.isRequired,
+  onClickSort: PropTypes.func.isRequired,
+  onSortChange: PropTypes.func.isRequired,
+  onClickResetSort: PropTypes.func.isRequired
 }
 
 export default SortMenu

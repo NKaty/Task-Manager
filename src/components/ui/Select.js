@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { typeSelectOptions } from '../../types'
 import styled from 'styled-components'
 
 const SelectWrapper = styled.div`
@@ -155,6 +157,18 @@ class Select extends Component {
       </SelectWrapper>
     )
   }
+}
+
+Select.propTypes = {
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(typeSelectOptions).isRequired,
+  onChangeHandler: PropTypes.func.isRequired
+}
+
+StyledSelect.propTypes = {
+  isExpanded: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 export default Select

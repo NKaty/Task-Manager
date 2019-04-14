@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const StyledBackdrop = styled.div`
@@ -15,6 +16,14 @@ const Backdrop = ({ removeBackdrop }) => <StyledBackdrop onClick={removeBackdrop
 
 Backdrop.defaultProps = {
   removeBackdrop: () => {}
+}
+
+Backdrop.propTypes = {
+  removeBackdrop: PropTypes.func
+}
+
+StyledBackdrop.propTypes = {
+  onClick: PropTypes.func.isRequired
 }
 
 export default Backdrop

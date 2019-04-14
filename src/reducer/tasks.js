@@ -53,8 +53,11 @@ export default (state = ReducerRecord(), action) => {
           .set('sortOrder', payload.sortOrder)
           .set('newTasks', Map({ ids: List() }))
           .setIn(['pagination', payload.page, 'loading'], true)
+          .setIn(['pagination', payload.page, 'loaded'], false)
       }
-      return state.setIn(['pagination', payload.page, 'loading'], true)
+      return state
+        .setIn(['pagination', payload.page, 'loading'], true)
+        .setIn(['pagination', payload.page, 'loaded'], false)
 
     case LOAD_TASKS_FOR_PAGE + SUCCESS:
       return state
@@ -62,21 +65,25 @@ export default (state = ReducerRecord(), action) => {
         .mergeIn(['entities'], arrToMap(response.message.tasks, TaskRecord))
         .setIn(['pagination', payload.page, 'ids'], response.message.tasks.map(task => task.id))
         .setIn(['pagination', payload.page, 'loading'], false)
+        .setIn(['pagination', payload.page, 'loaded'], true)
 
     case LOAD_TASKS_FOR_PAGE + FAIL:
-      return state.setIn(['pagination', payload.page, 'loading'], false)
+      return state
+        .setIn(['pagination', payload.page, 'loading'], false)
+        .setIn(['pagination', payload.page, 'loaded'], false)
 
     case ADD_TASK + START:
-      return state.setIn(['newTasks', 'loading'], true)
+      return state.setIn(['newTasks', 'loading'], true).setIn(['newTasks', 'loaded'], false)
 
     case ADD_TASK + SUCCESS:
       return state
         .mergeIn(['entities'], arrToMap([response.message], TaskRecord))
         .mergeIn(['newTasks', 'ids'], response.message.id)
         .setIn(['newTasks', 'loading'], false)
+        .setIn(['newTasks', 'loaded'], true)
 
     case ADD_TASK + FAIL:
-      return state.setIn(['newTasks', 'loading'], false)
+      return state.setIn(['newTasks', 'loading'], false).setIn(['newTasks', 'loaded'], false)
 
     default:
       return state

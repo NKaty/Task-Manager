@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Range } from 'immutable'
 import styled from 'styled-components'
@@ -65,7 +66,7 @@ const CurrentPage = styled.p`
 const Pagination = ({ totalRecords, page, limit, pageNeighbours }) => {
   const LEFT_ARROW = 'LEFT_ARROW'
   const RIGHT_ARROW = 'RIGHT_ARROW'
-  const totalPages = Math.ceil(totalRecords / limit)
+  const totalPages = totalRecords === null ? null : Math.ceil(totalRecords / limit)
 
   const getPaginationItems = () => {
     const arrowBlockLength = pageNeighbours * 2 + 3
@@ -127,6 +128,22 @@ const Pagination = ({ totalRecords, page, limit, pageNeighbours }) => {
       </StyledPagination>
     )
   )
+}
+
+Pagination.defaultProps = {
+  limit: 3,
+  pageNeighbours: 1
+}
+
+Pagination.propTypes = {
+  totalRecords: PropTypes.number,
+  page: PropTypes.number.isRequired,
+  limit: PropTypes.number,
+  pageNeighbours: PropTypes.number
+}
+
+StyledLink.propTypes = {
+  to: PropTypes.string.isRequired
 }
 
 export default Pagination

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import Layout from '../layout/Layout'
 import Button from '../ui/Button'
 import Card from '../card/Card'
@@ -8,6 +9,7 @@ import CardMenu from '../card/CardMenu'
 import { errorSelector } from '../../selectors'
 import { resetErrorMessage } from '../../actions'
 import { errorMessages } from './errorDictionary'
+import { typeErrorObject } from '../../types'
 import styled from 'styled-components'
 
 const ErrorMessageWrapper = styled.div`
@@ -85,6 +87,15 @@ class GlobalError extends Component {
       )
     )
   }
+}
+
+GlobalError.propTypes = {
+  error: PropTypes.oneOfType([PropTypes.string, typeErrorObject]),
+  resetErrorMessage: PropTypes.func.isRequired
+}
+
+ErrorInfo.propTypes = {
+  direction: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => {

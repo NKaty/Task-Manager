@@ -1,4 +1,5 @@
 import React, { Fragment, PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import Backdrop from './Backdrop'
 import styled from 'styled-components'
 
@@ -14,8 +15,8 @@ const StyledModal = styled.div`
   top: 20%;
   box-sizing: border-box;
   transition: all 0.3s ease-out;
-  transform: ${props => (props.show ? 'translateY(0)' : 'translateY(-100vh)')};
-  opacity: ${props => (props.show ? '1' : '0')};
+  transform: ${({ show }) => (show ? 'translateY(0)' : 'translateY(-100vh)')};
+  opacity: ${({ show }) => (show ? '1' : '0')};
 
   @media (min-width: 600px) {
     width: 500px;
@@ -34,6 +35,16 @@ class Modal extends PureComponent {
       </Fragment>
     )
   }
+}
+
+Modal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  modalCancel: PropTypes.func.isRequired,
+  render: PropTypes.func.isRequired
+}
+
+StyledModal.propTypes = {
+  show: PropTypes.bool.isRequired
 }
 
 export default Modal

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const StyledButton = styled.button`
@@ -43,7 +44,7 @@ const FilledStyledButton = styled(StyledButton)`
 
 const Button = ({ children, onClickHandler, btnType, fill, disabled }) => (
   <StyledButton
-    as={fill && FilledStyledButton}
+    as={fill ? FilledStyledButton : StyledButton}
     btnType={btnType}
     onClick={onClickHandler}
     disabled={disabled}
@@ -53,7 +54,31 @@ const Button = ({ children, onClickHandler, btnType, fill, disabled }) => (
 )
 
 Button.defaultProps = {
-  disabled: false
+  btnType: 'info',
+  fill: false,
+  disabled: false,
+  onClickHandler: () => {}
+}
+
+Button.propTypes = {
+  children: PropTypes.node.isRequired,
+  btnType: PropTypes.string,
+  fill: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onClickHandler: PropTypes.func
+}
+
+StyledButton.propTypes = {
+  btnType: PropTypes.string,
+  as: PropTypes.object,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func.isRequired
+}
+
+FilledStyledButton.propTypes = {
+  btnType: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func.isRequired
 }
 
 export default Button

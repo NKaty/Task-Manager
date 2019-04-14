@@ -1,9 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import Button from '../ui/Button'
 import Card from '../card/Card'
 import CardInfo from '../card/CardInfo'
 import CardMenu from '../card/CardMenu'
-import { connect } from 'react-redux'
+import { taskSelector } from '../../selectors'
+import { typeTask } from '../../types'
 import styled from 'styled-components'
 
 const StyledTask = styled(Card)`
@@ -22,7 +24,7 @@ const TaskInfo = styled(CardInfo)`
 const Task = ({ task }) => {
   return (
     <StyledTask>
-      <TaskInfo direction="row">
+      <TaskInfo>
         <p>{task.text}</p>
         <p>
           <span>Автор: {task.username}</span>
@@ -39,9 +41,13 @@ const Task = ({ task }) => {
   )
 }
 
+Task.propTypes = {
+  task: typeTask.isRequired
+}
+
 const mapStateToProps = (state, ownProps) => {
   return {
-    task: state.tasks.entities.get(ownProps.id)
+    task: taskSelector(state, ownProps)
   }
 }
 
