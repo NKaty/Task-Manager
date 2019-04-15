@@ -5,8 +5,6 @@ import TaskList from '../taskList/TaskList'
 import TaskListWithButton from '../taskList/TaskListWithButton'
 import SortMenu from '../sortMenu/SortMenu'
 import Pagination from '../pagination/Pagination'
-import Modal from '../ui/Modal'
-import CreateTaskForm from '../createTaskForm/CreateTaskForm'
 import Loader from '../ui/Loader'
 import {
   totalTasksSelector,
@@ -19,13 +17,12 @@ import {
   tasksPageLoadedSelector,
   newTaskLoadedSelector
 } from '../../selectors'
-import { loadTasksForPage } from '../../actions'
+import { loadTasksForPage, openModal } from '../../actions'
 
 class Tasks extends Component {
   state = {
     sortBy: this.props.sortBy,
-    sortOrder: this.props.sortOrder,
-    isCreateTaskFormShown: false
+    sortOrder: this.props.sortOrder
   }
 
   componentDidMount() {
@@ -54,16 +51,8 @@ class Tasks extends Component {
 
   onClickCreateTaskHandler = event => {
     event.preventDefault()
-    this.setState({ isCreateTaskFormShown: true })
+    this.props.openModal('TaskForm', 'create')
   }
-
-  onCloseTaskFormHandler = event => {
-    event && event.preventDefault()
-    this.setState({ isCreateTaskFormShown: false })
-  }
-
-  // If do rendering through children, modal component does unnecessary re-rendering
-  modalRender = () => <CreateTaskForm closeFormHandler={this.onCloseTaskFormHandler} />
 
   render() {
     const {
@@ -83,11 +72,6 @@ class Tasks extends Component {
 
     return (
       <Fragment>
-        <Modal
-          modalCancel={this.onCloseTaskFormHandler}
-          show={this.state.isCreateTaskFormShown}
-          render={this.modalRender}
-        />
         <SortMenu
           sortBy={sortBy}
           sortOrder={sortOrder}
@@ -120,7 +104,8 @@ Tasks.propTypes = {
   tasksLoaded: PropTypes.bool,
   newTaskLoaded: PropTypes.bool,
   page: PropTypes.number.isRequired,
-  loadTasksForPage: PropTypes.func.isRequired
+  loadTasksForPage: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -139,5 +124,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  { loadTasksForPage }
+  { loadTasksForPage, openModal }
 )(Tasks)

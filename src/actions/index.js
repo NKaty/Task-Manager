@@ -2,6 +2,8 @@ import {
   LOAD_TASKS_FOR_PAGE,
   ADD_TASK,
   RESET_ERROR_MESSAGE,
+  OPEN_MODAL,
+  CLOSE_MODAL,
   SUCCESS,
   FAIL,
   START
@@ -118,6 +120,19 @@ export function addTask(form) {
     //     }),
     //   1000
     // )
+  }
+}
+
+export function openModal(modalId, modelMode) {
+  return {
+    type: OPEN_MODAL,
+    payload: { modalId, modelMode }
+  }
+}
+
+export function closeModal() {
+  return {
+    type: CLOSE_MODAL
   }
 }
 

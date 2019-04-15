@@ -1,21 +1,14 @@
 import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Input from '../ui/Input'
-import Button from '../ui/Button'
-import { checkInputValidity, checkFormValidity } from '../../utils/validation'
-import { addTask } from '../../actions'
+import CreateTaskForm from './CreateTaskForm'
+import EditTaskForm from './EditTaskForm'
+import { checkInputValidity } from '../../utils/validation'
 import styled from 'styled-components'
 
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
-const ButtonsWrapper = styled.div`
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
 `
 
 const FormHeader = styled.h2`
@@ -25,7 +18,7 @@ const FormHeader = styled.h2`
   margin-bottom: 0.7rem;
 `
 
-class CreateTaskForm extends Component {
+class TaskForm extends Component {
   state = {
     taskForm: {
       username: {
@@ -40,6 +33,10 @@ class CreateTaskForm extends Component {
         validation: {
           // required: true,
           // minLength: 3
+        },
+        mode: {
+          create: true,
+          edit: false
         },
         validationErrors: [],
         touched: false
@@ -57,6 +54,10 @@ class CreateTaskForm extends Component {
           required: true,
           email: true
         },
+        mode: {
+          create: true,
+          edit: false
+        },
         validationErrors: [],
         touched: false
       },
@@ -72,6 +73,10 @@ class CreateTaskForm extends Component {
           required: true,
           minLength: 10,
           maxLength: 150
+        },
+        mode: {
+          create: true,
+          edit: true
         },
         validationErrors: [],
         touched: false
@@ -98,65 +103,39 @@ class CreateTaskForm extends Component {
     this.setState({ taskForm })
   }
 
-  taskCreateHandler = event => {
-    event.preventDefault()
-    const taskFormData = Object.keys(this.state.taskForm).reduce((acc, key) => {
-      acc[key] = this.state.taskForm[key].value
+  render() {
+    const { mode } = this.props
+    const { taskForm } = this.state
+    const form = Object.keys(taskForm).reduce((acc, key) => {
+      if (taskForm[key].mode[mode]) acc[key] = taskForm[key]
       return acc
     }, {})
-    console.log(taskFormData)
-    this.props.addTask(taskFormData)
-    this.resetForm()
-    this.props.closeFormHandler()
-  }
-
-  render() {
-    const formElements = Object.keys(this.state.taskForm).map(key => ({
-      id: key,
-      config: this.state.taskForm[key]
-    }))
 
     return (
       <Fragment>
-        <FormHeader>Новое задание</FormHeader>
+        <FormHeader>{mode === 'create' ? 'Новое задание' : 'Редактировать задание'}</FormHeader>
         <StyledForm>
-          {formElements.map(element => (
-            <Input
-              key={element.id}
-              elementType={element.config.elementType}
-              elementConfig={element.config.elementConfig}
-              value={element.config.value}
-              validationErrors={
-                element.config.validationErrors ? element.config.validationErrors : []
-              }
-              touched={element.config.touched ? element.config.touched : false}
+          {mode === 'create' ? (
+            <CreateTaskForm
+              form={form}
               onChangeHandler={this.inputChangedHandler}
+              resetForm={this.resetForm}
             />
-          ))}
-          <ButtonsWrapper>
-            <Button
-              btnType="action"
-              disabled={!checkFormValidity(this.state.taskForm)}
-              onClickHandler={this.taskCreateHandler}
-            >
-              Создать
-            </Button>
-            <Button btnType="danger" onClickHandler={this.props.closeFormHandler}>
-              Отменить
-            </Button>
-          </ButtonsWrapper>
+          ) : (
+            <EditTaskForm
+              form={form}
+              onChangeHandler={this.inputChangedHandler}
+              resetForm={this.resetForm}
+            />
+          )}
         </StyledForm>
       </Fragment>
     )
   }
 }
 
-CreateTaskForm.propTypes = {
-  addTask: PropTypes.func.isRequired,
-  closeFormHandler: PropTypes.func.isRequired
+TaskForm.propTypes = {
+  mode: PropTypes.string.isRequired
 }
 
-export default connect(
-  null,
-  { addTask }
-)(CreateTaskForm)
+export default TaskForm

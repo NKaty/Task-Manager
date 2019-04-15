@@ -1,7 +1,13 @@
-import React, { Fragment, PureComponent } from 'react'
+import React, { Fragment, Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import TaskForm from '../taskForm/TaskForm'
 import Backdrop from './Backdrop'
+import { isModalOpenSelector, componentIdSelector, componentModeSelector } from '../../selectors'
+import { closeModal } from '../../actions'
 import styled from 'styled-components'
+
+const types = { TaskForm }
 
 const StyledModal = styled.div`
   position: fixed;
@@ -15,8 +21,8 @@ const StyledModal = styled.div`
   top: 20%;
   box-sizing: border-box;
   transition: all 0.3s ease-out;
-  transform: ${({ show }) => (show ? 'translateY(0)' : 'translateY(-100vh)')};
-  opacity: ${({ show }) => (show ? '1' : '0')};
+  transform: ${({ open }) => (open ? 'translateY(0)' : 'translateY(-100vh)')};
+  opacity: ${({ open }) => (open ? '1' : '0')};
 
   @media (min-width: 600px) {
     width: 500px;
@@ -24,27 +30,50 @@ const StyledModal = styled.div`
   }
 `
 
-class Modal extends PureComponent {
+class Modal extends Component {
+  closeModal = event => {
+    event.preventDefault()
+    this.props.closeModal()
+  }
+
   render() {
     console.log('render')
-    const { show, modalCancel, render } = this.props
+    const { open, componentId, mode } = this.props
+    const Form = types[componentId]
+    console.log(mode)
+
     return (
-      <Fragment>
-        {show && <Backdrop removeBackdrop={modalCancel} />}
-        <StyledModal show={show}>{render()}</StyledModal>
-      </Fragment>
+      open && (
+        <Fragment>
+          <Backdrop removeBackdrop={this.closeModal} />
+          <StyledModal open={open}>
+            <Form mode={mode} />
+          </StyledModal>
+        </Fragment>
+      )
     )
   }
 }
 
 Modal.propTypes = {
-  show: PropTypes.bool.isRequired,
-  modalCancel: PropTypes.func.isRequired,
-  render: PropTypes.func.isRequired
+  open: PropTypes.bool.isRequired,
+  componentId: PropTypes.string,
+  mode: PropTypes.string
 }
 
 StyledModal.propTypes = {
-  show: PropTypes.bool.isRequired
+  open: PropTypes.bool.isRequired
 }
 
-export default Modal
+const mapStateToProps = state => {
+  return {
+    open: isModalOpenSelector(state),
+    componentId: componentIdSelector(state),
+    mode: componentModeSelector(state)
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { closeModal }
+)(Modal)

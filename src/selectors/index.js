@@ -48,4 +48,8 @@ export const taskSelector = createSelector(
 export const sortBySelector = state => state.tasks.sortBy
 export const sortOrderSelector = state => state.tasks.sortOrder
 
+export const isModalOpenSelector = state => state.modal.isModalOpen
+export const componentIdSelector = state => state.modal.openModalId
+export const componentModeSelector = state => state.modal.openModalMode
+
 export const errorSelector = state => state.error
