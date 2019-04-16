@@ -26,7 +26,12 @@ class Tasks extends Component {
   }
 
   componentDidMount() {
+    console.log(111)
     this.fetchData()
+  }
+
+  componentDidUpdate() {
+    console.log(222)
   }
 
   fetchData() {

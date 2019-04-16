@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import TaskForm from '../taskForm/TaskForm'
 import Backdrop from './Backdrop'
 import { isModalOpenSelector, componentIdSelector, componentModeSelector } from '../../selectors'
-import { closeModal } from '../../actions'
+import { closeModal, cancelEditMode } from '../../actions'
 import styled from 'styled-components'
 
 const types = { TaskForm }
@@ -31,21 +31,22 @@ const StyledModal = styled.div`
 `
 
 class Modal extends Component {
-  closeModal = event => {
+  closeModalHandler = event => {
     event.preventDefault()
-    this.props.closeModal()
+    const { cancelEditMode, closeModal, mode } = this.props
+    closeModal()
+    if (mode === 'edit') cancelEditMode()
   }
 
   render() {
     console.log('render')
     const { open, componentId, mode } = this.props
     const Form = types[componentId]
-    console.log(mode)
 
     return (
       open && (
         <Fragment>
-          <Backdrop removeBackdrop={this.closeModal} />
+          <Backdrop removeBackdrop={this.closeModalHandler} />
           <StyledModal open={open}>
             <Form mode={mode} />
           </StyledModal>
@@ -58,7 +59,9 @@ class Modal extends Component {
 Modal.propTypes = {
   open: PropTypes.bool.isRequired,
   componentId: PropTypes.string,
-  mode: PropTypes.string
+  mode: PropTypes.string,
+  closeModal: PropTypes.func.isRequired,
+  cancelEditMode: PropTypes.func.isRequired
 }
 
 StyledModal.propTypes = {
@@ -75,5 +78,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { closeModal }
+  { closeModal, cancelEditMode }
 )(Modal)

@@ -1,6 +1,14 @@
 import { Record, OrderedMap, Map, List } from 'immutable'
 import { arrToMap } from './utils'
-import { LOAD_TASKS_FOR_PAGE, ADD_TASK, START, SUCCESS, FAIL } from '../constants'
+import {
+  LOAD_TASKS_FOR_PAGE,
+  ADD_TASK,
+  ENTER_EDIT_MODE,
+  CANCEL_EDIT_MODE,
+  START,
+  SUCCESS,
+  FAIL
+} from '../constants'
 
 // const tasks = {
 //   '1': {
@@ -33,6 +41,7 @@ const ReducerRecord = Record({
   newTasks: Map({ ids: List() }),
   sortBy: 'none',
   sortOrder: 'none',
+  editingTaskId: null,
   total: null
 })
 
@@ -84,6 +93,12 @@ export default (state = ReducerRecord(), action) => {
 
     case ADD_TASK + FAIL:
       return state.setIn(['newTasks', 'loading'], false).setIn(['newTasks', 'loaded'], false)
+
+    case ENTER_EDIT_MODE:
+      return state.set('editingTaskId', payload.taskId)
+
+    case CANCEL_EDIT_MODE:
+      return state.set('editingTaskId', null)
 
     default:
       return state

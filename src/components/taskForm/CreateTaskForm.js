@@ -10,14 +10,12 @@ import { addTask, closeModal } from '../../actions'
 class CreateTaskForm extends Component {
   closeFormHandler = event => {
     event.preventDefault()
-    const { resetForm, closeModal } = this.props
-    resetForm()
-    closeModal()
+    this.props.closeModal()
   }
 
   taskCreateHandler = event => {
     event.preventDefault()
-    const { form, addTask, resetForm } = this.props
+    const { form, addTask, resetForm, closeModal } = this.props
     const taskFormData = Object.keys(form).reduce((acc, key) => {
       acc[key] = form[key].value
       return acc
@@ -25,7 +23,7 @@ class CreateTaskForm extends Component {
     console.log(taskFormData)
     addTask(taskFormData)
     resetForm()
-    this.closeFormHandler()
+    closeModal()
   }
 
   render() {

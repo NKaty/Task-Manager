@@ -45,6 +45,14 @@ export const taskSelector = createSelector(
   (tasks, id) => tasks.get(id)
 )
 
+export const editingTaskIdSelector = state => state.tasks.editingTaskId
+
+export const editingTaskSelector = createSelector(
+  tasksSelector,
+  editingTaskIdSelector,
+  (tasks, id) => tasks.get(id)
+)
+
 export const sortBySelector = state => state.tasks.sortBy
 export const sortOrderSelector = state => state.tasks.sortOrder
 

@@ -1,11 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import Button from '../ui/Button'
 import Card from '../card/Card'
 import CardInfo from '../card/CardInfo'
 import CardMenu from '../card/CardMenu'
 import { taskSelector } from '../../selectors'
 import { typeTask } from '../../types'
+import { openModal, enterEditMode } from '../../actions'
 import styled from 'styled-components'
 
 const StyledTask = styled(Card)`
@@ -21,7 +23,12 @@ const TaskInfo = styled(CardInfo)`
   }
 `
 
-const Task = ({ task }) => {
+const Task = ({ task, openModal, enterEditMode }) => {
+  const onClickEditTaskHandler = event => {
+    event.preventDefault()
+    openModal('TaskForm', 'edit')
+    enterEditMode(task.id)
+  }
   return (
     <StyledTask>
       <TaskInfo>
@@ -33,7 +40,7 @@ const Task = ({ task }) => {
         </p>
       </TaskInfo>
       <CardMenu>
-        <Button btnType="action" disabled={true}>
+        <Button btnType="action" disabled={false} onClickHandler={onClickEditTaskHandler}>
           Редактировать
         </Button>
       </CardMenu>
@@ -42,7 +49,8 @@ const Task = ({ task }) => {
 }
 
 Task.propTypes = {
-  task: typeTask.isRequired
+  task: typeTask.isRequired,
+  openModal: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -51,4 +59,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps)(Task)
+export default connect(
+  mapStateToProps,
+  { openModal, enterEditMode }
+)(Task)

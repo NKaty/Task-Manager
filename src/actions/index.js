@@ -4,6 +4,8 @@ import {
   RESET_ERROR_MESSAGE,
   OPEN_MODAL,
   CLOSE_MODAL,
+  ENTER_EDIT_MODE,
+  CANCEL_EDIT_MODE,
   SUCCESS,
   FAIL,
   START
@@ -24,8 +26,10 @@ export function loadTasksForPage(page, sortBy, sortOrder) {
         sortBy === sortByFromStore &&
         sortOrder === sortOrderFromStore &&
         !newTasks.get('ids').size)
-    )
+    ) {
+      console.log('break')
       return
+    }
 
     let params = `developer=Test&page=${encodeURIComponent(page)}`
     params = sortBy === 'none' ? params : `${params}&sort_field=${encodeURIComponent(sortBy)}`
@@ -120,6 +124,25 @@ export function addTask(form) {
     //     }),
     //   1000
     // )
+  }
+}
+
+export function enterEditMode(taskId) {
+  return {
+    type: ENTER_EDIT_MODE,
+    payload: { taskId }
+  }
+}
+
+export function cancelEditMode() {
+  return {
+    type: CANCEL_EDIT_MODE
+  }
+}
+
+export function editTask() {
+  return {
+    type: CANCEL_EDIT_MODE
   }
 }
 

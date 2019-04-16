@@ -84,6 +84,15 @@ class TaskForm extends Component {
     }
   }
 
+  setForm = task => {
+    const taskForm = Object.keys(this.state.taskForm).reduce((acc, element) => {
+      acc[element] = { ...this.state.taskForm[element] }
+      acc[element].value = task[element] || ''
+      return acc
+    }, {})
+    this.setState({ taskForm })
+  }
+
   inputChangedHandler = event => {
     const taskForm = { ...this.state.taskForm }
     const elementForm = { ...taskForm[event.currentTarget.name] }
@@ -94,14 +103,7 @@ class TaskForm extends Component {
     this.setState({ taskForm })
   }
 
-  resetForm = () => {
-    const taskForm = Object.keys(this.state.taskForm).reduce((acc, element) => {
-      acc[element] = { ...this.state.taskForm[element] }
-      acc[element].value = ''
-      return acc
-    }, {})
-    this.setState({ taskForm })
-  }
+  resetForm = () => this.setForm({})
 
   render() {
     const { mode } = this.props
@@ -125,6 +127,7 @@ class TaskForm extends Component {
             <EditTaskForm
               form={form}
               onChangeHandler={this.inputChangedHandler}
+              setForm={this.setForm}
               resetForm={this.resetForm}
             />
           )}

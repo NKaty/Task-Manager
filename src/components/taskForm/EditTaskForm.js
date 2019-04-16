@@ -5,27 +5,33 @@ import Input from '../ui/Input'
 import ActionButtonsBar from './ActionButtonsBar'
 import Button from '../ui/Button'
 import { checkFormValidity } from '../../utils/validation'
-import { editTask, closeModal } from '../../actions'
+import { editingTaskSelector } from '../../selectors'
+import { editTask, closeModal, cancelEditMode } from '../../actions'
 
 class EditTaskForm extends Component {
-  closeFormHandler = event => {
+  componentDidMount() {
+    const { task, setForm } = this.props
+    setForm(task)
+  }
+
+  cancelFormHandler = event => {
     event.preventDefault()
-    const { resetForm, closeModal } = this.props
-    resetForm()
+    const { closeModal, cancelEditMode } = this.props
     closeModal()
+    cancelEditMode()
   }
 
   taskEditHandler = event => {
     event.preventDefault()
-    const { form, addTask, resetForm } = this.props
+    const { form, editTask, resetForm, closeModal } = this.props
     const taskFormData = Object.keys(form).reduce((acc, key) => {
       acc[key] = form[key].value
       return acc
     }, {})
     console.log(taskFormData)
-    addTask(taskFormData)
+    editTask(taskFormData)
     resetForm()
-    this.closeFormHandler()
+    closeModal()
   }
 
   render() {
@@ -54,11 +60,11 @@ class EditTaskForm extends Component {
           <Button
             btnType="action"
             disabled={!checkFormValidity(form)}
-            onClickHandler={this.taskCreateHandler}
+            onClickHandler={this.taskEditHandler}
           >
-            Создать
+            Сохранить
           </Button>
-          <Button btnType="danger" onClickHandler={this.closeFormHandler}>
+          <Button btnType="danger" onClickHandler={this.cancelFormHandler}>
             Отменить
           </Button>
         </ActionButtonsBar>
@@ -71,11 +77,17 @@ EditTaskForm.propTypes = {
   form: PropTypes.object.isRequired,
   onChangeHandler: PropTypes.func.isRequired,
   resetForm: PropTypes.func.isRequired,
-  addTask: PropTypes.func.isRequired,
+  editTask: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired
 }
 
+const mapStateToProps = state => {
+  return {
+    task: editingTaskSelector(state)
+  }
+}
+
 export default connect(
-  null,
-  { editTask, closeModal }
+  mapStateToProps,
+  { editTask, closeModal, cancelEditMode }
 )(EditTaskForm)
