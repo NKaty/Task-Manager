@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const StyledInput = styled.input`
+const StyledTextarea = styled.textarea`
   border-radius: 3px;
   border: ${({ invalid, touched }) =>
     invalid && touched ? '1px solid #db7093' : '1px solid #0b9fe5'};
@@ -11,11 +11,12 @@ const StyledInput = styled.input`
   width: 70%;
   margin: 0 0 0.6rem;
   padding: 0.5rem 1rem;
+  height: 100px;
 `
 
-const Input = ({ elementConfig, value, onChangeHandler, touched, invalid }) => {
+const Textarea = ({ elementConfig, value, onChangeHandler, touched, invalid }) => {
   return (
-    <StyledInput
+    <StyledTextarea
       invalid={invalid}
       touched={touched}
       {...elementConfig}
@@ -25,7 +26,7 @@ const Input = ({ elementConfig, value, onChangeHandler, touched, invalid }) => {
   )
 }
 
-Input.propTypes = {
+Textarea.propTypes = {
   elementConfig: PropTypes.object.isRequired,
   invalid: PropTypes.bool.isRequired,
   touched: PropTypes.bool.isRequired,
@@ -33,11 +34,11 @@ Input.propTypes = {
   onChangeHandler: PropTypes.func.isRequired
 }
 
-StyledInput.propTypes = {
+StyledTextarea.propTypes = {
   invalid: PropTypes.bool.isRequired,
   touched: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired
 }
 
-export default Input
+export default Textarea

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Input from '../ui/Input'
+import FormField from '../ui/FormField'
 import ActionButtonsBar from './ActionButtonsBar'
 import Button from '../ui/Button'
 import { checkFormValidity } from '../../utils/validation'
@@ -44,7 +44,7 @@ class EditTaskForm extends Component {
     return (
       <Fragment>
         {formElements.map(element => (
-          <Input
+          <FormField
             key={element.id}
             elementType={element.config.elementType}
             elementConfig={element.config.elementConfig}
