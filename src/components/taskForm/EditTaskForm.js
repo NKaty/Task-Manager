@@ -52,7 +52,7 @@ class EditTaskForm extends Component {
             validationErrors={
               element.config.validationErrors ? element.config.validationErrors : []
             }
-            touched={element.config.touched ? element.config.touched : false}
+            touched={element.config.touched}
             onChangeHandler={onChangeHandler}
           />
         ))}

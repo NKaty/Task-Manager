@@ -71,7 +71,7 @@ class TaskForm extends Component {
         value: '',
         validation: {
           required: true,
-          minLength: 10,
+          minLength: 3,
           maxLength: 150
         },
         mode: {
@@ -80,6 +80,22 @@ class TaskForm extends Component {
         },
         validationErrors: [],
         touched: false
+      },
+      status: {
+        elementType: 'radio',
+        elementConfig: {
+          options: [
+            { value: '0', displayValue: 'Не выполнено' },
+            { value: '10', displayValue: 'Выполнено' }
+          ],
+          name: 'status'
+        },
+        label: 'Статус',
+        value: '0',
+        mode: {
+          create: false,
+          edit: true
+        }
       }
     }
   }
@@ -87,7 +103,8 @@ class TaskForm extends Component {
   setForm = task => {
     const taskForm = Object.keys(this.state.taskForm).reduce((acc, element) => {
       acc[element] = { ...this.state.taskForm[element] }
-      acc[element].value = task[element] || ''
+      acc[element].value = `${task[element]}`
+      if (typeof acc[element].touched !== 'undefined') acc[element].touched = true
       return acc
     }, {})
     this.setState({ taskForm })
@@ -103,7 +120,14 @@ class TaskForm extends Component {
     this.setState({ taskForm })
   }
 
-  resetForm = () => this.setForm({})
+  resetForm = () => {
+    const taskForm = Object.keys(this.state.taskForm).reduce((acc, element) => {
+      acc[element] = { ...this.state.taskForm[element] }
+      acc[element].value = ''
+      return acc
+    }, {})
+    this.setState({ taskForm })
+  }
 
   render() {
     const { mode } = this.props

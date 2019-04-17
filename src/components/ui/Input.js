@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import RadioButtonGroup from './RadioButtonGroup'
 import styled from 'styled-components'
 
 const StyledInput = styled.input`
@@ -76,6 +77,16 @@ const Input = ({
       )
       break
 
+    case 'radio':
+      inputElement = (
+        <RadioButtonGroup
+          elementConfig={elementConfig}
+          value={value}
+          onChangeHandler={onChangeHandler}
+        />
+      )
+      break
+
     default:
       inputElement = (
         <StyledInput
@@ -90,7 +101,7 @@ const Input = ({
 
   return (
     <Fragment>
-      {touched !== undefined && (
+      {typeof touched !== 'undefined' && (
         <ErrorMessagesWrapper>
           {invalid &&
             validationErrors.map(error => <ErrorMessage key={error}>{error}</ErrorMessage>)}
