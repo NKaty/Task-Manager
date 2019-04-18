@@ -26,8 +26,8 @@ const StyledRadioButtonGroup = styled.p`
     position: absolute;
     left: 0;
     top: 0;
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 1.3rem;
+    height: 1.3rem;
     border: 0.05rem solid #ddd;
     border-radius: 100%;
     background: #fff;
@@ -38,8 +38,8 @@ const StyledRadioButtonGroup = styled.p`
     position: absolute;
     top: 0.25rem;
     left: 0.25rem;
-    width: 0.8rem;
-    height: 0.8rem;
+    width: 0.9rem;
+    height: 0.9rem;
     background: #0b9fe5;
     border-radius: 100%;
     transition: all 0.2s ease;
