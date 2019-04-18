@@ -126,7 +126,7 @@ class TaskForm extends Component {
     const { mode } = this.props
     const { taskForm } = this.state
     const form = Object.keys(taskForm).reduce((acc, key) => {
-      if (taskForm[key].mode[mode] === 'create') {
+      if (mode === 'create') {
         if (taskForm[key].mode[mode]) acc[key] = taskForm[key]
       } else {
         acc[key] = taskForm[key]
