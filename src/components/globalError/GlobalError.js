@@ -90,7 +90,7 @@ class GlobalError extends Component {
 }
 
 GlobalError.propTypes = {
-  error: PropTypes.oneOfType([PropTypes.string, typeErrorObject]),
+  error: typeErrorObject,
   resetErrorMessage: PropTypes.func.isRequired
 }
 

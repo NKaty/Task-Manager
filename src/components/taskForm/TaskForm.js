@@ -11,13 +11,6 @@ const StyledForm = styled.form`
   align-items: center;
 `
 
-const FormHeader = styled.h2`
-  font-weight: 500;
-  color: #666;
-  text-align: center;
-  margin-bottom: 0.7rem;
-`
-
 class TaskForm extends Component {
   state = {
     taskForm: {
@@ -133,13 +126,17 @@ class TaskForm extends Component {
     const { mode } = this.props
     const { taskForm } = this.state
     const form = Object.keys(taskForm).reduce((acc, key) => {
-      if (taskForm[key].mode[mode]) acc[key] = taskForm[key]
+      if (taskForm[key].mode[mode] === 'create') {
+        if (taskForm[key].mode[mode]) acc[key] = taskForm[key]
+      } else {
+        acc[key] = taskForm[key]
+        if (!taskForm[key].mode[mode]) acc[key].elementConfig.disabled = true
+      }
       return acc
     }, {})
 
     return (
       <Fragment>
-        <FormHeader>{mode === 'create' ? 'Новое задание' : 'Редактировать задание'}</FormHeader>
         <StyledForm>
           {mode === 'create' ? (
             <CreateTaskForm

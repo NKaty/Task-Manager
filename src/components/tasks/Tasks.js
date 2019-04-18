@@ -15,7 +15,8 @@ import {
   newTaskLoadingSelector,
   tasksPageLoadingSelector,
   tasksPageLoadedSelector,
-  newTaskLoadedSelector
+  newTaskLoadedSelector,
+  editedTaskLoadingSelector
 } from '../../selectors'
 import { loadTasksForPage, openModal } from '../../actions'
 
@@ -68,7 +69,8 @@ class Tasks extends Component {
       newTasks,
       newTaskLoading,
       tasksLoaded,
-      newTaskLoaded
+      newTaskLoaded,
+      editedTaskLoading
     } = this.props
 
     const { sortBy, sortOrder } = this.state
@@ -84,7 +86,7 @@ class Tasks extends Component {
           onSortChange={this.onSortChangeHandler}
           onClickResetSort={this.onClickResetSortHandler}
         />
-        {(tasksLoading || newTaskLoading) && <Loader />}
+        {(tasksLoading || newTaskLoading || editedTaskLoading) && <Loader />}
         {newTaskLoaded && !!newTasks.length && <TaskList tasks={newTasks} showBorder={true} />}
         {tasksLoaded && (
           <TaskListWithButton
@@ -108,6 +110,7 @@ Tasks.propTypes = {
   newTaskLoading: PropTypes.bool,
   tasksLoaded: PropTypes.bool,
   newTaskLoaded: PropTypes.bool,
+  editedTaskLoading: PropTypes.bool,
   page: PropTypes.number.isRequired,
   loadTasksForPage: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired
@@ -123,7 +126,8 @@ const mapStateToProps = (state, ownProps) => {
     tasksLoading: tasksPageLoadingSelector(state, ownProps),
     tasksLoaded: tasksPageLoadedSelector(state, ownProps),
     newTaskLoading: newTaskLoadingSelector(state),
-    newTaskLoaded: newTaskLoadedSelector(state)
+    newTaskLoaded: newTaskLoadedSelector(state),
+    editedTaskLoading: editedTaskLoadingSelector(state)
   }
 }
 

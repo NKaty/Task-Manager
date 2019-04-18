@@ -7,7 +7,7 @@ export const typeSelectOptions = PropTypes.shape({
 
 export const typeErrorObject = PropTypes.shape({
   title: PropTypes.string,
-  errors: PropTypes.object
+  errors: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 })
 
 export const typeTask = PropTypes.shape({

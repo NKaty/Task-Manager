@@ -46,6 +46,7 @@ export const taskSelector = createSelector(
 )
 
 export const editingTaskIdSelector = state => state.tasks.editingTaskId
+export const editedTaskLoadingSelector = state => state.tasks.editedTaskLoading
 
 export const editingTaskSelector = createSelector(
   tasksSelector,

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import FormField from '../ui/FormField'
 import ActionButtonsBar from './ActionButtonsBar'
 import Button from '../ui/Button'
+import FormHeader from './FormHeader'
 import { checkFormValidity } from '../../utils/validation'
 import { addTask, closeModal } from '../../actions'
 
@@ -35,6 +36,7 @@ class CreateTaskForm extends Component {
 
     return (
       <Fragment>
+        <FormHeader>Новое задание</FormHeader>
         {formElements.map(element => (
           <FormField
             key={element.id}

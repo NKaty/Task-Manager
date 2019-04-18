@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import FormField from '../ui/FormField'
 import ActionButtonsBar from './ActionButtonsBar'
 import Button from '../ui/Button'
+import FormHeader from './FormHeader'
+import { typeTask } from '../../types'
 import { checkFormValidity } from '../../utils/validation'
 import { editingTaskSelector } from '../../selectors'
 import { editTask, closeModal, cancelEditMode } from '../../actions'
@@ -23,13 +25,13 @@ class EditTaskForm extends Component {
 
   taskEditHandler = event => {
     event.preventDefault()
-    const { form, editTask, resetForm, closeModal } = this.props
+    const { form, task, editTask, resetForm, closeModal } = this.props
     const taskFormData = Object.keys(form).reduce((acc, key) => {
-      acc[key] = form[key].value
+      if (form[key].elementConfig.disabled !== true) acc[key] = form[key].value
       return acc
     }, {})
     console.log(taskFormData)
-    editTask(taskFormData)
+    editTask(taskFormData, task.id)
     resetForm()
     closeModal()
   }
@@ -43,6 +45,7 @@ class EditTaskForm extends Component {
 
     return (
       <Fragment>
+        <FormHeader>Редактировать задание</FormHeader>
         {formElements.map(element => (
           <FormField
             key={element.id}
@@ -75,10 +78,13 @@ class EditTaskForm extends Component {
 
 EditTaskForm.propTypes = {
   form: PropTypes.object.isRequired,
+  task: typeTask.isRequired,
   onChangeHandler: PropTypes.func.isRequired,
+  setForm: PropTypes.func.isRequired,
   resetForm: PropTypes.func.isRequired,
   editTask: PropTypes.func.isRequired,
-  closeModal: PropTypes.func.isRequired
+  closeModal: PropTypes.func.isRequired,
+  cancelEditMode: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {

@@ -3,6 +3,7 @@ import { arrToMap } from './utils'
 import {
   LOAD_TASKS_FOR_PAGE,
   ADD_TASK,
+  EDIT_TASK,
   ENTER_EDIT_MODE,
   CANCEL_EDIT_MODE,
   START,
@@ -42,6 +43,7 @@ const ReducerRecord = Record({
   sortBy: 'none',
   sortOrder: 'none',
   editingTaskId: null,
+  editedTaskLoading: false,
   total: null
 })
 
@@ -53,7 +55,8 @@ export default (state = ReducerRecord(), action) => {
       if (
         state.get('sortBy') !== payload.sortBy ||
         state.get('sortOrder') !== payload.sortOrder ||
-        state.getIn(['newTasks', 'ids']).size
+        state.getIn(['newTasks', 'ids']).size ||
+        state.get('editingTaskId') !== null
       ) {
         return state
           .set('entities', OrderedMap({}))
@@ -61,6 +64,7 @@ export default (state = ReducerRecord(), action) => {
           .set('sortBy', payload.sortBy)
           .set('sortOrder', payload.sortOrder)
           .set('newTasks', Map({ ids: List() }))
+          .set('editingTaskId', null)
           .setIn(['pagination', payload.page, 'loading'], true)
           .setIn(['pagination', payload.page, 'loaded'], false)
       }
@@ -93,6 +97,15 @@ export default (state = ReducerRecord(), action) => {
 
     case ADD_TASK + FAIL:
       return state.setIn(['newTasks', 'loading'], false).setIn(['newTasks', 'loaded'], false)
+
+    case EDIT_TASK + START:
+      return state.set('editedTaskLoading', true)
+
+    case EDIT_TASK + SUCCESS:
+      return state.set('editedTaskLoading', false)
+
+    case EDIT_TASK + FAIL:
+      return state.set('editingTaskId', null).set('editedTaskLoading', false)
 
     case ENTER_EDIT_MODE:
       return state.set('editingTaskId', payload.taskId)

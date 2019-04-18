@@ -11,6 +11,10 @@ const StyledInput = styled.input`
   width: 70%;
   margin: 0 0 0.6rem;
   padding: 0.5rem 1rem;
+
+  :disabled {
+    opacity: 0.5;
+  }
 `
 
 const Input = ({ elementConfig, value, onChangeHandler, touched, invalid }) => {

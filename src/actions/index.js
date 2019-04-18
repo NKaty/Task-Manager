@@ -1,6 +1,7 @@
 import {
   LOAD_TASKS_FOR_PAGE,
   ADD_TASK,
+  EDIT_TASK,
   RESET_ERROR_MESSAGE,
   OPEN_MODAL,
   CLOSE_MODAL,
@@ -10,22 +11,29 @@ import {
   FAIL,
   START
 } from '../constants'
+import { URL } from '../constants/common'
 import callAPI from '../utils/callAPI'
 import convertErrorFields from '../utils/convertErrorFields'
-
-const url = 'https://uxcandy.com/~shapoval/test-task-backend/'
+import getPostParamsWithSignature from '../utils/getPostParamsWithSignature'
 
 export function loadTasksForPage(page, sortBy, sortOrder) {
   return (dispatch, getState) => {
     const {
-      tasks: { pagination, sortBy: sortByFromStore, sortOrder: sortOrderFromStore, newTasks }
+      tasks: {
+        pagination,
+        sortBy: sortByFromStore,
+        sortOrder: sortOrderFromStore,
+        newTasks,
+        editingTaskId
+      }
     } = getState()
     if (
       pagination.getIn([page, 'loading']) ||
       (pagination.getIn([page, 'ids']) &&
         sortBy === sortByFromStore &&
         sortOrder === sortOrderFromStore &&
-        !newTasks.get('ids').size)
+        !newTasks.get('ids').size &&
+        editingTaskId === null)
     ) {
       console.log('break')
       return
@@ -45,7 +53,7 @@ export function loadTasksForPage(page, sortBy, sortOrder) {
       payload: { page, sortBy, sortOrder }
     })
 
-    callAPI(`${url}?${params}`)
+    callAPI(`${URL}?${params}`)
       .then(response =>
         dispatch({
           type: LOAD_TASKS_FOR_PAGE + SUCCESS,
@@ -76,7 +84,7 @@ export function addTask(form) {
       type: ADD_TASK + START
     })
 
-    callAPI(`${url}create?developer=Test`, {
+    callAPI(`${URL}create?developer=Test`, {
       method: 'POST',
       mode: 'cors',
       body
@@ -127,6 +135,54 @@ export function addTask(form) {
   }
 }
 
+export function editTask(form, id) {
+  const signedForm = getPostParamsWithSignature(form)
+  const body = new FormData()
+  Object.keys(signedForm).forEach(field => body.append(field, signedForm[field]))
+
+  return (dispatch, getState) => {
+    const {
+      tasks: { sortBy, sortOrder },
+      router: {
+        location: { pathname }
+      }
+    } = getState()
+
+    const page = isNaN(parseInt(pathname.replace(/^\//, ''), 10))
+      ? 1
+      : parseInt(pathname.replace(/^\//, ''), 10)
+
+    dispatch({
+      type: EDIT_TASK + START
+    })
+
+    callAPI(`${URL}edit/${id}?developer=Test`, {
+      method: 'POST',
+      mode: 'cors',
+      body
+    })
+      .then(response => {
+        dispatch({
+          type: EDIT_TASK + SUCCESS,
+          response
+        })
+
+        dispatch(loadTasksForPage(page, sortBy, sortOrder))
+      })
+      .catch(error => {
+        console.log(error.message)
+        dispatch({
+          type: EDIT_TASK + FAIL,
+          error: {
+            title: 'Изменения не удалось сохранить.',
+            errors:
+              typeof error.message === 'object' ? convertErrorFields(error.message) : error.message
+          }
+        })
+      })
+  }
+}
+
 export function enterEditMode(taskId) {
   return {
     type: ENTER_EDIT_MODE,
@@ -135,12 +191,6 @@ export function enterEditMode(taskId) {
 }
 
 export function cancelEditMode() {
-  return {
-    type: CANCEL_EDIT_MODE
-  }
-}
-
-export function editTask() {
   return {
     type: CANCEL_EDIT_MODE
   }
