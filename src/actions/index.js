@@ -7,6 +7,8 @@ import {
   CLOSE_MODAL,
   ENTER_EDIT_MODE,
   CANCEL_EDIT_MODE,
+  LOGIN_AS_ADMIN,
+  LOGOUT,
   SUCCESS,
   FAIL,
   START
@@ -15,6 +17,7 @@ import { URL } from '../constants/common'
 import callAPI from '../utils/callAPI'
 import convertErrorFields from '../utils/convertErrorFields'
 import getPostParamsWithSignature from '../utils/getPostParamsWithSignature'
+import loginImitation from '../utils/loginImitation'
 
 export function loadTasksForPage(page, sortBy, sortOrder) {
   return (dispatch, getState) => {
@@ -180,6 +183,65 @@ export function editTask(form, id) {
           }
         })
       })
+  }
+}
+
+export function loginAsAdmin(username, password) {
+  return dispatch => {
+    dispatch({
+      type: LOGIN_AS_ADMIN + START
+    })
+
+    loginImitation(username, password)
+      .then(response => {
+        const expirationDate = new Date(new Date().getTime() + response.expiresIn)
+        localStorage.setItem('userId', response.userId)
+        localStorage.setItem('expirationDate', expirationDate)
+
+        dispatch({
+          type: LOGIN_AS_ADMIN + SUCCESS,
+          payload: { userId: response.userId }
+        })
+
+        setTimeout(() => dispatch(logout()), response.expiresIn)
+      })
+      .catch(error => {
+        dispatch({
+          type: LOGIN_AS_ADMIN + FAIL,
+          error: {
+            title: 'При входе в приложение под правами администратора произошла ошибка.',
+            errors:
+              typeof error.message === 'object' ? convertErrorFields(error.message) : error.message
+          }
+        })
+      })
+  }
+}
+
+export function logout() {
+  localStorage.removeItem('userId')
+  localStorage.removeItem('expirationDate')
+  return {
+    type: LOGOUT
+  }
+}
+
+export function isAdminCheck() {
+  return dispatch => {
+    const userId = localStorage.getItem('userId')
+    if (!userId) return dispatch(logout())
+
+    const expirationDate = new Date(localStorage.getItem('expirationDate'))
+    if (expirationDate <= new Date()) {
+      return dispatch(logout())
+    }
+
+    dispatch({
+      type: LOGIN_AS_ADMIN + SUCCESS,
+      payload: { userId }
+    })
+
+    setTimeout(() => dispatch(logout()), expirationDate.getTime() - new Date().getTime())
   }
 }
 

@@ -9,6 +9,9 @@ export const CANCEL_EDIT_MODE = 'CANCEL_EDIT_MODE'
 export const OPEN_MODAL = 'OPEN_MODAL'
 export const CLOSE_MODAL = 'CLOSE_MODAL'
 
+export const LOGIN_AS_ADMIN = 'LOGIN_AS_ADMIN'
+export const LOGOUT = 'LOGOUT'
+
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
 
 export const START = '_START'
