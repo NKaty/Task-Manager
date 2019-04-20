@@ -6,8 +6,9 @@ import Button from '../ui/Button'
 import Form from '../form/Form'
 import FormHeader from '../form/FormHeader'
 import FormField from '../ui/FormField'
+import withForm from '../../hoc/withForm'
 import { loginAsAdmin, closeModal } from '../../actions'
-import { checkInputValidity, checkFormValidity } from '../../utils/validation'
+import { checkFormValidity } from '../../utils/validation'
 
 class LoginForm extends Component {
   state = {
@@ -47,23 +48,14 @@ class LoginForm extends Component {
     }
   }
 
-  inputChangedHandler = event => {
-    const loginForm = { ...this.state.loginForm }
-    const elementForm = { ...loginForm[event.currentTarget.name] }
-    elementForm.value = event.currentTarget.value
-    elementForm.validationErrors = checkInputValidity(elementForm.value, elementForm.validation)
-    if (elementForm.touched === false) elementForm.touched = true
-    loginForm[event.currentTarget.name] = elementForm
-    this.setState({ loginForm })
+  formFieldChangedHandler = event => {
+    const changedForm = this.props.getChangedForm(this.state.loginForm, event)
+    this.setState({ loginForm: changedForm })
   }
 
   resetForm = () => {
-    const loginForm = Object.keys(this.state.loginForm).reduce((acc, element) => {
-      acc[element] = { ...this.state.loginForm[element] }
-      acc[element].value = ''
-      return acc
-    }, {})
-    this.setState({ loginForm })
+    const changedForm = this.props.getResetForm(this.state.loginForm)
+    this.setState({ loginForm: changedForm })
   }
 
   closeFormHandler = event => {
@@ -100,7 +92,7 @@ class LoginForm extends Component {
               element.config.validationErrors ? element.config.validationErrors : []
             }
             touched={element.config.touched}
-            onChangeHandler={this.inputChangedHandler}
+            onChangeHandler={this.formFieldChangedHandler}
           />
         ))}
         <ActionButtonsBar>
@@ -122,10 +114,12 @@ class LoginForm extends Component {
 
 LoginForm.propTypes = {
   loginAsAdmin: PropTypes.func.isRequired,
-  closeModal: PropTypes.func.isRequired
+  closeModal: PropTypes.func.isRequired,
+  getChangedForm: PropTypes.func.isRequired,
+  getResetForm: PropTypes.func.isRequired
 }
 
 export default connect(
   null,
   { loginAsAdmin, closeModal }
-)(LoginForm)
+)(withForm(LoginForm))

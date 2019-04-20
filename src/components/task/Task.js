@@ -40,7 +40,7 @@ const Task = ({ task, isAdmin, openModal, enterEditMode }) => {
         </p>
       </TaskInfo>
       <CardMenu>
-        <Button btnType="action" disabled={isAdmin} onClickHandler={onClickEditTaskHandler}>
+        <Button btnType="action" disabled={!isAdmin} onClickHandler={onClickEditTaskHandler}>
           Редактировать
         </Button>
       </CardMenu>

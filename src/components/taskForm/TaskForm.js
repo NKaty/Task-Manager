@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Form from '../form/Form'
 import CreateTaskForm from './CreateTaskForm'
 import EditTaskForm from './EditTaskForm'
-import { checkInputValidity } from '../../utils/validation'
+import withForm from '../../hoc/withForm'
 
 class TaskForm extends Component {
   state = {
@@ -18,8 +18,8 @@ class TaskForm extends Component {
         label: 'Имя',
         value: '',
         validation: {
-          // required: true,
-          // minLength: 3
+          required: true,
+          minLength: 3
         },
         mode: {
           create: true,
@@ -88,32 +88,18 @@ class TaskForm extends Component {
   }
 
   setForm = task => {
-    const taskForm = Object.keys(this.state.taskForm).reduce((acc, element) => {
-      acc[element] = { ...this.state.taskForm[element] }
-      acc[element].value = `${task[element]}`
-      if (typeof acc[element].touched !== 'undefined') acc[element].touched = true
-      return acc
-    }, {})
-    this.setState({ taskForm })
+    const changedForm = this.props.getSetForm(this.state.taskForm, task)
+    this.setState({ taskForm: changedForm })
   }
 
-  inputChangedHandler = event => {
-    const taskForm = { ...this.state.taskForm }
-    const elementForm = { ...taskForm[event.currentTarget.name] }
-    elementForm.value = event.currentTarget.value
-    elementForm.validationErrors = checkInputValidity(elementForm.value, elementForm.validation)
-    if (elementForm.touched === false) elementForm.touched = true
-    taskForm[event.currentTarget.name] = elementForm
-    this.setState({ taskForm })
+  formFieldChangedHandler = event => {
+    const changedForm = this.props.getChangedForm(this.state.taskForm, event)
+    this.setState({ taskForm: changedForm })
   }
 
   resetForm = () => {
-    const taskForm = Object.keys(this.state.taskForm).reduce((acc, element) => {
-      acc[element] = { ...this.state.taskForm[element] }
-      acc[element].value = ''
-      return acc
-    }, {})
-    this.setState({ taskForm })
+    const changedForm = this.props.getResetForm(this.state.taskForm)
+    this.setState({ taskForm: changedForm })
   }
 
   render() {
@@ -134,13 +120,13 @@ class TaskForm extends Component {
         {mode === 'create' ? (
           <CreateTaskForm
             form={form}
-            onChangeHandler={this.inputChangedHandler}
+            onChangeHandler={this.formFieldChangedHandler}
             resetForm={this.resetForm}
           />
         ) : (
           <EditTaskForm
             form={form}
-            onChangeHandler={this.inputChangedHandler}
+            onChangeHandler={this.formFieldChangedHandler}
             setForm={this.setForm}
             resetForm={this.resetForm}
           />
@@ -151,7 +137,10 @@ class TaskForm extends Component {
 }
 
 TaskForm.propTypes = {
-  mode: PropTypes.string.isRequired
+  mode: PropTypes.string.isRequired,
+  getChangedForm: PropTypes.func.isRequired,
+  getResetForm: PropTypes.func.isRequired,
+  getSetForm: PropTypes.func.isRequired
 }
 
-export default TaskForm
+export default withForm(TaskForm)
