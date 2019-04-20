@@ -1,15 +1,9 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Form from '../form/Form'
 import CreateTaskForm from './CreateTaskForm'
 import EditTaskForm from './EditTaskForm'
 import { checkInputValidity } from '../../utils/validation'
-import styled from 'styled-components'
-
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
 
 class TaskForm extends Component {
   state = {
@@ -136,24 +130,22 @@ class TaskForm extends Component {
     }, {})
 
     return (
-      <Fragment>
-        <StyledForm>
-          {mode === 'create' ? (
-            <CreateTaskForm
-              form={form}
-              onChangeHandler={this.inputChangedHandler}
-              resetForm={this.resetForm}
-            />
-          ) : (
-            <EditTaskForm
-              form={form}
-              onChangeHandler={this.inputChangedHandler}
-              setForm={this.setForm}
-              resetForm={this.resetForm}
-            />
-          )}
-        </StyledForm>
-      </Fragment>
+      <Form>
+        {mode === 'create' ? (
+          <CreateTaskForm
+            form={form}
+            onChangeHandler={this.inputChangedHandler}
+            resetForm={this.resetForm}
+          />
+        ) : (
+          <EditTaskForm
+            form={form}
+            onChangeHandler={this.inputChangedHandler}
+            setForm={this.setForm}
+            resetForm={this.resetForm}
+          />
+        )}
+      </Form>
     )
   }
 }

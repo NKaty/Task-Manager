@@ -5,7 +5,7 @@ import Button from '../ui/Button'
 import Card from '../card/Card'
 import CardInfo from '../card/CardInfo'
 import CardMenu from '../card/CardMenu'
-import { taskSelector } from '../../selectors'
+import { taskSelector, adminAccessSelector } from '../../selectors'
 import { typeTask } from '../../types'
 import { openModal, enterEditMode } from '../../actions'
 import styled from 'styled-components'
@@ -23,7 +23,7 @@ const TaskInfo = styled(CardInfo)`
   }
 `
 
-const Task = ({ task, openModal, enterEditMode }) => {
+const Task = ({ task, isAdmin, openModal, enterEditMode }) => {
   const onClickEditTaskHandler = event => {
     event.preventDefault()
     openModal('TaskForm', 'edit')
@@ -40,7 +40,7 @@ const Task = ({ task, openModal, enterEditMode }) => {
         </p>
       </TaskInfo>
       <CardMenu>
-        <Button btnType="action" disabled={false} onClickHandler={onClickEditTaskHandler}>
+        <Button btnType="action" disabled={isAdmin} onClickHandler={onClickEditTaskHandler}>
           Редактировать
         </Button>
       </CardMenu>
@@ -49,12 +49,14 @@ const Task = ({ task, openModal, enterEditMode }) => {
 }
 
 Task.propTypes = {
+  isAdmin: PropTypes.bool.isRequired,
   task: typeTask.isRequired,
   openModal: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    isAdmin: adminAccessSelector(state),
     task: taskSelector(state, ownProps)
   }
 }

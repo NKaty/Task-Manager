@@ -61,4 +61,7 @@ export const isModalOpenSelector = state => state.modal.isModalOpen
 export const componentIdSelector = state => state.modal.openModalId
 export const componentModeSelector = state => state.modal.openModalMode
 
+export const adminAccessSelector = state => state.auth.adminAccess
+export const loginLoadingSelector = state => state.auth.loading
+
 export const errorSelector = state => state.error

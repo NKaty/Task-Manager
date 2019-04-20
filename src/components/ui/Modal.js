@@ -2,12 +2,13 @@ import React, { Fragment, Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import TaskForm from '../taskForm/TaskForm'
+import LoginForm from '../auth/LoginForm'
 import Backdrop from './Backdrop'
 import { isModalOpenSelector, componentIdSelector, componentModeSelector } from '../../selectors'
-import { closeModal, cancelEditMode } from '../../actions'
+import { closeModal, cancelEditMode, resetErrorMessage } from '../../actions'
 import styled from 'styled-components'
 
-const types = { TaskForm }
+const types = { TaskForm, LoginForm }
 
 const StyledModal = styled.div`
   position: fixed;
@@ -31,6 +32,11 @@ const StyledModal = styled.div`
 `
 
 class Modal extends Component {
+  componentDidUpdate() {
+    console.log('modal')
+    this.props.resetErrorMessage()
+  }
+
   closeModalHandler = event => {
     event.preventDefault()
     const { cancelEditMode, closeModal, mode } = this.props
@@ -78,5 +84,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { closeModal, cancelEditMode }
+  { closeModal, cancelEditMode, resetErrorMessage }
 )(Modal)

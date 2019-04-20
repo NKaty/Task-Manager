@@ -195,12 +195,14 @@ export function loginAsAdmin(username, password) {
     loginImitation(username, password)
       .then(response => {
         const expirationDate = new Date(new Date().getTime() + response.expiresIn)
+        // for login process simulation purpose only
         localStorage.setItem('userId', response.userId)
+        localStorage.setItem('adminAccess', response.adminAccess)
         localStorage.setItem('expirationDate', expirationDate)
 
         dispatch({
           type: LOGIN_AS_ADMIN + SUCCESS,
-          payload: { userId: response.userId }
+          payload: { userId: response.userId, adminAccess: response.adminAccess }
         })
 
         setTimeout(() => dispatch(logout()), response.expiresIn)
@@ -220,6 +222,7 @@ export function loginAsAdmin(username, password) {
 
 export function logout() {
   localStorage.removeItem('userId')
+  localStorage.removeItem('adminAccess')
   localStorage.removeItem('expirationDate')
   return {
     type: LOGOUT
@@ -236,9 +239,11 @@ export function isAdminCheck() {
       return dispatch(logout())
     }
 
+    const adminAccess = localStorage.getItem('adminAccess') === 'true'
+
     dispatch({
       type: LOGIN_AS_ADMIN + SUCCESS,
-      payload: { userId }
+      payload: { userId, adminAccess }
     })
 
     setTimeout(() => dispatch(logout()), expirationDate.getTime() - new Date().getTime())
