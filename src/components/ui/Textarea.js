@@ -12,6 +12,7 @@ const StyledTextarea = styled.textarea`
   margin: 0 0 0.6rem;
   padding: 0.5rem 1rem;
   height: 100px;
+  resize: vertical;
 
   :disabled {
     opacity: 0.5;

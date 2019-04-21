@@ -28,8 +28,16 @@ export const tasksPageLoadedSelector = createSelector(
 )
 
 export const newTasksMapSelector = state => state.tasks.newTasks
-export const newTaskLoadingSelector = state => state.tasks.newTasks.get('loading')
-export const newTaskLoadedSelector = state => state.tasks.newTasks.get('loaded')
+
+export const newTaskLoadingSelector = createSelector(
+  newTasksMapSelector,
+  newTasksMap => newTasksMap.get('loading')
+)
+
+export const newTaskLoadedSelector = createSelector(
+  newTasksMapSelector,
+  newTasksMap => newTasksMap.get('loaded')
+)
 
 export const newTasksSelector = createSelector(
   newTasksMapSelector,

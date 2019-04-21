@@ -13,7 +13,8 @@ class TaskForm extends Component {
         elementConfig: {
           type: 'text',
           placeholder: 'Ваше имя',
-          name: 'username'
+          name: 'username',
+          autoFocus: this.props.mode === 'create' ? true : false
         },
         label: 'Имя',
         value: '',
@@ -31,7 +32,7 @@ class TaskForm extends Component {
       email: {
         elementType: 'input',
         elementConfig: {
-          type: 'text',
+          type: 'email',
           placeholder: 'Ваш email',
           name: 'email'
         },
@@ -52,7 +53,8 @@ class TaskForm extends Component {
         elementType: 'textarea',
         elementConfig: {
           placeholder: 'Введите текст задания',
-          name: 'text'
+          name: 'text',
+          autoFocus: this.props.mode === 'edit' ? true : false
         },
         label: 'Текст задания',
         value: '',

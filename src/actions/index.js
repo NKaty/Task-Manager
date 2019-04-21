@@ -17,7 +17,7 @@ import { URL } from '../constants/common'
 import callAPI from '../utils/callAPI'
 import convertErrorFields from '../utils/convertErrorFields'
 import getPostParamsWithSignature from '../utils/getPostParamsWithSignature'
-import loginImitation from '../utils/loginImitation'
+import loginSimulation from '../utils/loginSimulation'
 
 export function loadTasksForPage(page, sortBy, sortOrder) {
   return (dispatch, getState) => {
@@ -109,32 +109,6 @@ export function addTask(form) {
           }
         })
       })
-
-    // let id = 1
-    // setTimeout(
-    //   () =>
-    //     dispatch({
-    //       type: ADD_TASK + FAIL,
-    //       error: {
-    //         username: 'Поле является обязательным для заполнения',
-    //         email: 'Неверный email',
-    //         text: 'Поле является обязательным для заполнения'
-    //       }
-    //     }),
-    //     dispatch({
-    //       type: ADD_TASK + SUCCESS,
-    //       response: {
-    //         message: {
-    //           id: id++,
-    //           username: form.username,
-    //           email: form.email,
-    //           text: form.text,
-    //           status: 0
-    //         }
-    //       }
-    //     }),
-    //   1000
-    // )
   }
 }
 
@@ -192,7 +166,7 @@ export function loginAsAdmin(username, password) {
       type: LOGIN_AS_ADMIN + START
     })
 
-    loginImitation(username, password)
+    loginSimulation(username, password)
       .then(response => {
         const expirationDate = new Date(new Date().getTime() + response.expiresIn)
         // for login process simulation purpose only

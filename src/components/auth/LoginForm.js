@@ -18,7 +18,8 @@ class LoginForm extends Component {
         elementConfig: {
           type: 'text',
           placeholder: 'Ваше имя',
-          name: 'username'
+          name: 'username',
+          autoFocus: true
         },
         label: 'Имя',
         value: '',

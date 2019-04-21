@@ -4,7 +4,7 @@ import Login from '../auth/Login'
 import Logout from '../auth/Logout'
 import styled from 'styled-components'
 
-const StyledHeader = styled.div`
+const StyledHeader = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
