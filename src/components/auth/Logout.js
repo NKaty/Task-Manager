@@ -9,7 +9,11 @@ const Logout = ({ logout }) => {
     event.preventDefault()
     logout()
   }
-  return <Button onClickHandler={onClickLogoutHandler}>Выйти</Button>
+  return (
+    <Button fill={true} onClickHandler={onClickLogoutHandler}>
+      Выйти
+    </Button>
+  )
 }
 
 Logout.propTypes = {

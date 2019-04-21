@@ -14,7 +14,9 @@ const Login = ({ loading, openModal }) => {
   return (
     <Fragment>
       {loading && <Loader />}
-      <Button onClickHandler={onClickLoginHandler}>Войти как администратор</Button>
+      <Button fill={true} onClickHandler={onClickLoginHandler}>
+        Войти как администратор
+      </Button>
     </Fragment>
   )
 }
