@@ -11,7 +11,7 @@ import { openModal, enterEditMode } from '../../actions'
 import styled from 'styled-components'
 
 const StyledTask = styled(Card)`
-  border: 1px solid #eae5e5;
+  border: 1px solid ${({ status }) => (status === 'danger' && '#f7d7e1') || '#c2e9f9'};
 `
 
 const TaskInfo = styled(CardInfo)`
@@ -20,6 +20,13 @@ const TaskInfo = styled(CardInfo)`
     padding-top: 0.5rem;
     margin-right: 1.5rem;
     color: #545353;
+  }
+
+  span:nth-of-type(3) strong {
+    font-weight: 400;
+    padding: 0.3rem;
+    background-color: ${({ status }) => (status === 'danger' && '#fceaf0') || '#e8f6fc'};
+    border-radius: 2px;
   }
 `
 
@@ -30,13 +37,15 @@ const Task = ({ task, isAdmin, openModal, enterEditMode }) => {
     enterEditMode(task.id)
   }
   return (
-    <StyledTask>
-      <TaskInfo>
+    <StyledTask status={!!task.status ? 'info' : 'danger'}>
+      <TaskInfo status={!!task.status ? 'info' : 'danger'}>
         <p>{task.text}</p>
         <p>
           <span>Автор: {task.username}</span>
           <span>Email: {task.email}</span>
-          <span> Статус: {!!task.status ? 'Выполнено' : 'Не выполнено'}</span>
+          <span>
+            Статус: <strong>{!!task.status ? 'Выполнено' : 'Не выполнено'}</strong>
+          </span>
         </p>
       </TaskInfo>
       <CardMenu>
@@ -52,6 +61,14 @@ Task.propTypes = {
   isAdmin: PropTypes.bool.isRequired,
   task: typeTask.isRequired,
   openModal: PropTypes.func.isRequired
+}
+
+StyledTask.propTypes = {
+  status: PropTypes.string.isRequired
+}
+
+TaskInfo.propTypes = {
+  status: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {

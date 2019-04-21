@@ -7,7 +7,7 @@ const StyledTaskList = styled.ul`
   list-style: none;
   margin: 1rem 0 1rem 0;
   padding: 1rem;
-  border: ${({ showBorder }) => (showBorder ? '1px solid #db7093' : 'none')};
+  border: ${({ showBorder }) => (showBorder ? '2px dashed #ffcb05;' : 'none')};
 
   li {
     margin-bottom: 1rem;
