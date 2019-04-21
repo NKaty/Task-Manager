@@ -1,68 +1,53 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Тестовое задание BeeJee
+## Задание:
+Необходимо создать приложение-задачник.
 
-## Available Scripts
+Задачи состоят из:
+- имени пользователя;
+- е-mail;
+- текста задачи;
 
-In the project directory, you can run:
+Стартовая страница - список задач с возможностью сортировки по имени пользователя, email и статусу. Вывод задач нужно сделать страницами по 3 штуки (с пагинацией). Видеть список задач и создавать новые может любой посетитель без регистрации. 
 
-### `npm start`
+Сделайте вход для администратора (логин "admin", пароль "123"). Администратор имеет возможность редактировать текст задачи и поставить галочку о выполнении. Выполненные задачи в общем списке выводятся с соответствующей отметкой. В данный момент в back-end не реализована возможность логина, потому необходимо вывести форму-фальшивку, значения логина и пароля можно проверить прямо на клиенте.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+В приложении нужно использовать React и Redux. К дизайну особых требований нет.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Документацию по back-end можно найти тут: https://uxcandy.com/~shapoval/test-task-backend/docs.html
 
-### `npm test`
+### Краткое описание back-end'а:
+Ожидаемый MIME-type для POST-запросов - multipart/form-data
+Ответ сервера - в формате json. 
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Ответ может содержать два поля:
+- status - текстовая строка - "ok" в случае успешного запроса, "error" в случае ошибки
+- message - текстовая строка или ассоциативный массив - сообщение с результатами запроса (в случае успешного выполнения), сообщение об ошибке (в случае ошибки), поля может не быть или оно может быть пустым
+            
+#### Список задач (/):
+Допустимые параметры (GET):
+- sort_field (id | username | email | status) - поле, по которому выполняется сортировка
+- sort_direction (asc | desc) - направление сортировки
+- page - номер страницы для пагинации
 
-### `npm run build`
+В ответе сервер в поле "message" передаёт два параметра - "tasks" (список задач на странице) и "total_task_count" (общее количество задач)
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Добавление задачи (/create):
+Обязательные параметры (POST):
+- username - текстовое поле - имя пользователя, который добавляет задачу
+- email - текстовое поле - email-адрес пользователя, который добавляет задачу, email-адрес должен быть валидным
+- text - текстовое поле - текст задачи
+            
+#### Редактирование задачи (/edit/:id):
+Для редактирования задачи нужно передать в POST, помимо самих редактируемых полей, специальный токен (используйте строку "beejee" в качестве значения этого поля) и дополнительный параметр-подпись "signature".
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+Для генерации подписи нужно:
+- собрать все поля, отправляемые в POST, в том числе token (кроме самого поля signature),
+- отправлять можно только редактируемые поля + token + signature
+- отсортировать по алфавиту все поля, кроме token (поле token должно быть последним),
+- выполнить URL-кодированние параметров запроса (имени параметры и значения параметра), кодирование происходит по стандарту RFC 3986 (например, строка "example@example.com" кодируется в "example%40example.com")
+- собрать отсортированные URL-кодированые поля в одну строку запроса (params_string), разделитель между имененем параметра и его значением - символ "=", между разными параметрами - символ "&" (получится, например, status=0&text=SomeText&token=beejee). Напоминаем, что параметры должны быть кодированы по стандарту RFC 3986,
+- рассчитать md5-хеш от URL-кодированной строки запроса (md5(params_string)) и отправить этот md5-хеш в поле 'signature' в POST вместе с другими параметрами
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Допустимые параметры редактирования:
+- text - тестовое поле - текст задачи
+- status - числовое поле - статус выполнения задачи (0 - задача не выполнена, 10 - задача выполнена)
