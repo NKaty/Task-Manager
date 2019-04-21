@@ -27,12 +27,7 @@ class Tasks extends Component {
   }
 
   componentDidMount() {
-    console.log(111)
     this.fetchData()
-  }
-
-  componentDidUpdate() {
-    console.log(222)
   }
 
   fetchData() {
@@ -74,8 +69,6 @@ class Tasks extends Component {
     } = this.props
 
     const { sortBy, sortOrder } = this.state
-
-    console.log(tasks)
 
     return (
       <Fragment>

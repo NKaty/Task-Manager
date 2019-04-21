@@ -33,7 +33,6 @@ const StyledModal = styled.div`
 
 class Modal extends Component {
   componentDidUpdate() {
-    console.log('modal')
     this.props.resetErrorMessage()
   }
 
@@ -45,7 +44,6 @@ class Modal extends Component {
   }
 
   render() {
-    console.log('render')
     const { open, componentId, mode } = this.props
     const Form = types[componentId]
 

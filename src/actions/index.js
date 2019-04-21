@@ -38,7 +38,6 @@ export function loadTasksForPage(page, sortBy, sortOrder) {
         !newTasks.get('ids').size &&
         editingTaskId === null)
     ) {
-      console.log('break')
       return
     }
 
@@ -99,7 +98,6 @@ export function addTask(form) {
         })
       })
       .catch(error => {
-        console.log(error.message)
         dispatch({
           type: ADD_TASK + FAIL,
           error: {
@@ -147,7 +145,6 @@ export function editTask(form, id) {
         dispatch(loadTasksForPage(page, sortBy, sortOrder))
       })
       .catch(error => {
-        console.log(error.message)
         dispatch({
           type: EDIT_TASK + FAIL,
           error: {

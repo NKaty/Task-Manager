@@ -48,7 +48,6 @@ class GlobalError extends Component {
     const {
       error: { errors }
     } = this.props
-    console.log(errorMessages[errors])
 
     return typeof errors === 'object' ? (
       <ul>
@@ -65,7 +64,6 @@ class GlobalError extends Component {
 
   render() {
     const { error } = this.props
-    console.log(error)
 
     return (
       error && (
