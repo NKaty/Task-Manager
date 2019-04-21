@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import NotFound from './components/notFound/NotFound'
@@ -18,7 +18,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <Fragment>
         <GlobalError />
         <Layout>
           <Modal />
@@ -28,7 +28,7 @@ class App extends Component {
             <Route component={NotFound} />
           </Switch>
         </Layout>
-      </div>
+      </Fragment>
     )
   }
 }
