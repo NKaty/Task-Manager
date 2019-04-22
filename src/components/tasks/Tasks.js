@@ -29,6 +29,10 @@ class Tasks extends Component {
     this.fetchData()
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.page !== this.props.page) this.fetchData()
+  }
+
   fetchData() {
     const { loadTasksForPage, page } = this.props
     const { sortBy, sortOrder } = this.state
@@ -46,12 +50,7 @@ class Tasks extends Component {
 
   onClickResetSortHandler = event => {
     event.preventDefault()
-    this.setState({ sortBy: 'none', sortOrder: 'none' }, () => this.fetchData()) //componentDidUpdate
-  }
-
-  onClickCreateTaskHandler = event => {
-    event.preventDefault()
-    this.props.openModal('TaskForm', 'create')
+    this.setState({ sortBy: 'none', sortOrder: 'none' }, () => this.fetchData())
   }
 
   render() {
@@ -64,7 +63,8 @@ class Tasks extends Component {
       newTaskLoading,
       tasksLoaded,
       newTaskLoaded,
-      editedTaskLoading
+      editedTaskLoading,
+      openModal
     } = this.props
 
     const { sortBy, sortOrder } = this.state
@@ -80,13 +80,7 @@ class Tasks extends Component {
         />
         {(tasksLoading || newTaskLoading || editedTaskLoading) && <Loader />}
         {newTaskLoaded && !!newTasks.length && <TaskList tasks={newTasks} showBorder={true} />}
-        {tasksLoaded && (
-          <TaskList
-            tasks={tasks}
-            isCreateButton={true}
-            onClickCreateTaskHandler={this.onClickCreateTaskHandler}
-          />
-        )}
+        {tasksLoaded && <TaskList tasks={tasks} isCreateButton={true} openModal={openModal} />}
         {<Pagination totalRecords={total} page={page} />}
       </Fragment>
     )

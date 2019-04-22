@@ -35,8 +35,13 @@ const Message = styled.h3`
 `
 
 class TaskList extends PureComponent {
+  onClickCreateTaskHandler = event => {
+    event.preventDefault()
+    this.props.openModal('TaskForm', 'create')
+  }
+
   render() {
-    const { tasks, showBorder, isCreateButton, onClickCreateTaskHandler } = this.props
+    const { tasks, showBorder, isCreateButton } = this.props
 
     return (
       <TaskListWrapper isCreateButton={isCreateButton}>
@@ -52,7 +57,7 @@ class TaskList extends PureComponent {
           <Message>Заданий еще нет.</Message>
         )}
         {isCreateButton && (
-          <Button btnType="action" onClickHandler={onClickCreateTaskHandler}>
+          <Button btnType="action" onClickHandler={this.onClickCreateTaskHandler}>
             Создать задание
           </Button>
         )}
@@ -64,14 +69,14 @@ class TaskList extends PureComponent {
 TaskList.defaultProps = {
   showBorder: false,
   isCreateButton: false,
-  onClickCreateTaskHandler: () => {}
+  openModal: () => {}
 }
 
 TaskList.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.number).isRequired,
   showBorder: PropTypes.bool,
   isCreateButton: PropTypes.bool,
-  onClickCreateTaskHandler: PropTypes.func
+  openModal: PropTypes.func
 }
 
 StyledTaskList.propTypes = {
