@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import TaskList from '../taskList/TaskList'
-import TaskListWithButton from '../taskList/TaskListWithButton'
 import SortMenu from '../sortMenu/SortMenu'
 import Pagination from '../pagination/Pagination'
 import Loader from '../ui/Loader'
@@ -82,8 +81,9 @@ class Tasks extends Component {
         {(tasksLoading || newTaskLoading || editedTaskLoading) && <Loader />}
         {newTaskLoaded && !!newTasks.length && <TaskList tasks={newTasks} showBorder={true} />}
         {tasksLoaded && (
-          <TaskListWithButton
+          <TaskList
             tasks={tasks}
+            isCreateButton={true}
             onClickCreateTaskHandler={this.onClickCreateTaskHandler}
           />
         )}
