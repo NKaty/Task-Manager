@@ -87,7 +87,7 @@ class Tasks extends Component {
             onClickCreateTaskHandler={this.onClickCreateTaskHandler}
           />
         )}
-        {<Pagination totalRecords={total} page={page} limit={3} pageNeighbours={1} />}
+        {<Pagination totalRecords={total} page={page} />}
       </Fragment>
     )
   }

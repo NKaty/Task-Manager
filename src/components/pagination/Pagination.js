@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Range } from 'immutable'
+import { LEFT_ARROW, RIGHT_ARROW, LIMIT, PAGE_NEIGHBOURS } from '../../constants/common'
 import styled from 'styled-components'
 
 const StyledPagination = styled.ul`
@@ -63,12 +64,9 @@ const CurrentPage = styled.p`
   }
 `
 
-const Pagination = ({ totalRecords, page, limit, pageNeighbours }) => {
-  const LEFT_ARROW = 'LEFT_ARROW'
-  const RIGHT_ARROW = 'RIGHT_ARROW'
-  const totalPages = totalRecords === null ? null : Math.ceil(totalRecords / limit)
-
-  const getPaginationItems = () => {
+class Pagination extends PureComponent {
+  getPaginationItems(totalPages) {
+    const { page, pageNeighbours } = this.props
     const arrowBlockLength = pageNeighbours * 2 + 3
     const paginationLength = arrowBlockLength + 2
 
@@ -90,49 +88,56 @@ const Pagination = ({ totalRecords, page, limit, pageNeighbours }) => {
     return [1, ...pages, totalPages]
   }
 
-  return (
-    totalRecords &&
-    totalPages !== 1 && (
-      <StyledPagination>
-        {getPaginationItems().map(item => {
-          if (item === LEFT_ARROW) {
+  render() {
+    const { totalRecords, page, limit, pageNeighbours } = this.props
+    const totalPages = totalRecords === null ? null : Math.ceil(totalRecords / limit)
+
+    console.log(totalRecords, totalPages)
+
+    return (
+      totalRecords &&
+      totalPages !== 1 && (
+        <StyledPagination>
+          {this.getPaginationItems(totalPages).map(item => {
+            if (item === LEFT_ARROW) {
+              return (
+                <li key={item}>
+                  <StyledLink to={`/${page - pageNeighbours * 2 - 1}`}>&laquo;</StyledLink>
+                </li>
+              )
+            }
+
+            if (item === RIGHT_ARROW) {
+              return (
+                <li key={item}>
+                  <StyledLink to={`/${page + pageNeighbours * 2 + 1}`}>&raquo;</StyledLink>
+                </li>
+              )
+            }
+
+            if (item === page) {
+              return (
+                <li key={item}>
+                  <CurrentPage>{item}</CurrentPage>
+                </li>
+              )
+            }
+
             return (
               <li key={item}>
-                <StyledLink to={`/${page - pageNeighbours * 2 - 1}`}>&laquo;</StyledLink>
+                <StyledLink to={`/${item}`}>{item}</StyledLink>
               </li>
             )
-          }
-
-          if (item === RIGHT_ARROW) {
-            return (
-              <li key={item}>
-                <StyledLink to={`/${page + pageNeighbours * 2 + 1}`}>&raquo;</StyledLink>
-              </li>
-            )
-          }
-
-          if (item === page) {
-            return (
-              <li key={item}>
-                <CurrentPage>{item}</CurrentPage>
-              </li>
-            )
-          }
-
-          return (
-            <li key={item}>
-              <StyledLink to={`/${item}`}>{item}</StyledLink>
-            </li>
-          )
-        })}
-      </StyledPagination>
+          })}
+        </StyledPagination>
+      )
     )
-  )
+  }
 }
 
 Pagination.defaultProps = {
-  limit: 3,
-  pageNeighbours: 1
+  limit: LIMIT,
+  pageNeighbours: PAGE_NEIGHBOURS
 }
 
 Pagination.propTypes = {
