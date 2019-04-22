@@ -1,13 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import Tasks from '../tasks/Tasks'
 
-class TasksPage extends Component {
-  render() {
-    return <Route path="/:page" children={this.getTasks} exact />
-  }
-
-  getTasks = ({ match }) => {
+const TasksPage = () => {
+  const getTasks = ({ match }) => {
     if (!match) return <Redirect to="/1" />
 
     const { page } = match.params
@@ -16,6 +12,8 @@ class TasksPage extends Component {
 
     return <Tasks page={currentPage} />
   }
+
+  return <Route path="/:page" children={getTasks} exact />
 }
 
 export default TasksPage
