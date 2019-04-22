@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Layout from '../layout/Layout'
@@ -38,22 +38,20 @@ const ErrorInfo = styled(CardInfo)`
   }
 `
 
-class GlobalError extends Component {
-  handleDismissClick = event => {
+const GlobalError = ({ error, resetErrorMessage }) => {
+  const handleDismissClick = event => {
     event.preventDefault()
-    this.props.resetErrorMessage()
+    resetErrorMessage()
   }
 
-  get errorMessages() {
-    const {
-      error: { errors }
-    } = this.props
+  const getErrorMessages = () => {
+    const { errors } = error
 
     return typeof errors === 'object' ? (
       <ul>
-        {Object.keys(errors).map(error => (
-          <li key={error}>
-            {error}: {errors[error]}
+        {Object.keys(errors).map(err => (
+          <li key={err}>
+            {err}: {errors[err]}
           </li>
         ))}
       </ul>
@@ -62,29 +60,25 @@ class GlobalError extends Component {
     )
   }
 
-  render() {
-    const { error } = this.props
-
-    return (
-      error && (
-        <ErrorMessageWrapper>
-          <Layout>
-            <ErrorMessage>
-              <ErrorInfo direction="column">
-                {error.title && <p>{error.title}</p>}
-                {error.errors && this.errorMessages}
-              </ErrorInfo>
-              <CardMenu>
-                <Button btnType="danger" fill={true} onClickHandler={this.handleDismissClick}>
-                  Закрыть
-                </Button>
-              </CardMenu>
-            </ErrorMessage>
-          </Layout>
-        </ErrorMessageWrapper>
-      )
+  return (
+    error && (
+      <ErrorMessageWrapper>
+        <Layout>
+          <ErrorMessage>
+            <ErrorInfo direction="column">
+              {error.title && <p>{error.title}</p>}
+              {error.errors && getErrorMessages()}
+            </ErrorInfo>
+            <CardMenu>
+              <Button btnType="danger" fill={true} onClickHandler={handleDismissClick}>
+                Закрыть
+              </Button>
+            </CardMenu>
+          </ErrorMessage>
+        </Layout>
+      </ErrorMessageWrapper>
     )
-  }
+  )
 }
 
 GlobalError.propTypes = {
