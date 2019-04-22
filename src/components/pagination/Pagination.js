@@ -92,8 +92,6 @@ class Pagination extends PureComponent {
     const { totalRecords, page, limit, pageNeighbours } = this.props
     const totalPages = totalRecords === null ? null : Math.ceil(totalRecords / limit)
 
-    console.log(totalRecords, totalPages)
-
     return (
       totalRecords &&
       totalPages !== 1 && (

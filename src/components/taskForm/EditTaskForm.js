@@ -30,7 +30,6 @@ class EditTaskForm extends Component {
       if (form[key].elementConfig.disabled !== true) acc[key] = form[key].value
       return acc
     }, {})
-    console.log(taskFormData)
     editTask(taskFormData, task.id)
     resetForm()
     closeModal()

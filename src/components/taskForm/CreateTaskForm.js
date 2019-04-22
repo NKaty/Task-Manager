@@ -21,7 +21,6 @@ class CreateTaskForm extends Component {
       acc[key] = form[key].value
       return acc
     }, {})
-    console.log(taskFormData)
     addTask(taskFormData)
     resetForm()
     closeModal()

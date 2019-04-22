@@ -65,7 +65,8 @@ Modal.propTypes = {
   componentId: PropTypes.string,
   mode: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
-  cancelEditMode: PropTypes.func.isRequired
+  cancelEditMode: PropTypes.func.isRequired,
+  resetErrorMessage: PropTypes.func.isRequired
 }
 
 StyledModal.propTypes = {

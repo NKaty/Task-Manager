@@ -1,7 +1,7 @@
 import { RESET_ERROR_MESSAGE } from '../constants'
 import { LOCATION_CHANGE } from 'connected-react-router'
 
-export default (state = {}, action) => {
+export default (state = null, action) => {
   const { type, error } = action
 
   if (type === RESET_ERROR_MESSAGE || type === LOCATION_CHANGE) {

@@ -39,8 +39,8 @@ const ErrorInfo = styled(CardInfo)`
 `
 
 class GlobalError extends Component {
-  handleDismissClick = ev => {
-    ev.preventDefault()
+  handleDismissClick = event => {
+    event.preventDefault()
     this.props.resetErrorMessage()
   }
 
