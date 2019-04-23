@@ -7,6 +7,7 @@ const StyledButton = styled.button`
   color: ${({ btnType }) =>
     (btnType === 'action' && '#0dc69e') || (btnType === 'danger' && '#db7093') || '#0b9fe5'};
   font-size: 1rem;
+  background-color: #fff;
   margin: 1rem;
   padding: 0.25rem 1rem;
   border: ${({ btnType }) =>

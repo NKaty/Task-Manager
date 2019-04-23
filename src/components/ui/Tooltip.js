@@ -18,7 +18,7 @@ const StyledTooltip = styled.div`
     border-radius: 2px;
     background-color: #f7f4f4;
     color: #545353;
-    box-shadow: 0 3px 16px rgba(black, 0.15);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
 
     :after {
       content: '';

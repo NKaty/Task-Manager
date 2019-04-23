@@ -33,7 +33,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   return {
     isAdmin: adminAccessSelector(state)
   }

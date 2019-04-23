@@ -37,7 +37,7 @@ const StyledSelect = styled.span`
     `
   & {
     padding: 0;
-    box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 5px 0px;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.1);
     max-height: 15rem;
 
     label {
@@ -59,7 +59,7 @@ const StyledSelect = styled.span`
     display: none;
   }
   label {
-    border-top: 0.06em solid #d9d9d9;
+    border-top: 0.06rem solid #d9d9d9;
     display: block;
     height: 1.6rem;
     line-height: 1.6rem;

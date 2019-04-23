@@ -48,14 +48,10 @@ class Modal extends Component {
     const Form = types[componentId]
 
     return (
-      open && (
-        <Fragment>
-          <Backdrop removeBackdrop={this.closeModalHandler} />
-          <StyledModal open={open}>
-            <Form mode={mode} />
-          </StyledModal>
-        </Fragment>
-      )
+      <Fragment>
+        {open && <Backdrop removeBackdrop={this.closeModalHandler} />}
+        <StyledModal open={open}>{open && <Form mode={mode} />}</StyledModal>
+      </Fragment>
     )
   }
 }
