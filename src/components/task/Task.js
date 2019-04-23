@@ -5,6 +5,7 @@ import Button from '../ui/Button'
 import Card from '../card/Card'
 import CardInfo from '../card/CardInfo'
 import CardMenu from '../card/CardMenu'
+import Tooltip from '../ui/Tooltip'
 import { taskSelector, adminAccessSelector } from '../../selectors'
 import { typeTask } from '../../types'
 import { openModal, enterEditMode } from '../../actions'
@@ -49,9 +50,11 @@ const Task = ({ task, isAdmin, openModal, enterEditMode }) => {
         </p>
       </TaskInfo>
       <CardMenu>
-        <Button btnType="action" disabled={!isAdmin} onClickHandler={onClickEditTaskHandler}>
-          Редактировать
-        </Button>
+        <Tooltip label="Для редактирования войдите под правами администратора" isOn={!isAdmin}>
+          <Button btnType="action" disabled={!isAdmin} onClickHandler={onClickEditTaskHandler}>
+            Редактировать
+          </Button>
+        </Tooltip>
       </CardMenu>
     </StyledTask>
   )
