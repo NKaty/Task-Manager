@@ -15,13 +15,15 @@ const LoaderWrapper = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
+  background-color: transparent;
+  z-index: 99;
   transform: translate(-50%, -50%);
 `
 
 const StyledLoader = styled.div`
   position: relative;
   z-index: 500;
-  text-indent: -9999em;
+  text-indent: -9999rem;
   width: 6rem;
   height: 6rem;
   border-radius: 50%;

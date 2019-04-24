@@ -12,7 +12,7 @@ const StyledHeader = styled.header`
   margin-bottom: 1rem;
   background-color: #ecf0f1;
 
-  @media (min-width: 551px) {
+  @media (min-width: 585px) {
     flex-flow: row wrap;
     justify-content: space-between;
   }

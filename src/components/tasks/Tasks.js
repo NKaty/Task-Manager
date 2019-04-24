@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import TaskList from '../taskList/TaskList'
@@ -70,7 +70,7 @@ class Tasks extends Component {
     const { sortBy, sortOrder } = this.state
 
     return (
-      <Fragment>
+      <main>
         <SortMenu
           sortBy={sortBy}
           sortOrder={sortOrder}
@@ -82,7 +82,7 @@ class Tasks extends Component {
         {newTaskLoaded && !!newTasks.length && <TaskList tasks={newTasks} showBorder={true} />}
         {tasksLoaded && <TaskList tasks={tasks} isCreateButton={true} openModal={openModal} />}
         {<Pagination totalRecords={total} page={page} />}
-      </Fragment>
+      </main>
     )
   }
 }

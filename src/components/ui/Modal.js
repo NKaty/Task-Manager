@@ -11,23 +11,21 @@ import styled from 'styled-components'
 const types = { TaskForm, LoginForm }
 
 const StyledModal = styled.div`
-  position: fixed;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   z-index: 500;
   background-color: white;
-  width: 70%;
+  max-width: 500px;
+  width: 95%;
   border: 1px solid #ccc;
   box-shadow: 1px 1px 3px #333;
   padding: 1rem;
-  left: 15%;
-  top: 20%;
   box-sizing: border-box;
-  transition: all 0.3s ease-out;
-  transform: ${({ open }) => (open ? 'translateY(0)' : 'translateY(-100vh)')};
-  opacity: ${({ open }) => (open ? '1' : '0')};
 
-  @media (min-width: 600px) {
-    width: 500px;
-    left: calc(50% - 250px);
+  @media (min-width: 400px) {
+    width: 90%;
   }
 `
 
@@ -48,10 +46,14 @@ class Modal extends Component {
     const Form = types[componentId]
 
     return (
-      <Fragment>
-        {open && <Backdrop removeBackdrop={this.closeModalHandler} />}
-        <StyledModal open={open}>{open && <Form mode={mode} />}</StyledModal>
-      </Fragment>
+      open && (
+        <Fragment>
+          <Backdrop removeBackdrop={this.closeModalHandler} />
+          <StyledModal open={open}>
+            <Form mode={mode} />
+          </StyledModal>
+        </Fragment>
+      )
     )
   }
 }
